@@ -2,7 +2,9 @@
   "name": "phigros-save-manager",
   "version": "1.0.0",
   "description": "A simple library for handle phigros saves",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "repository": "https://github.com/lamadaemon/phigros-save-manager",
   "author": "lamadaemon",
   "license": "Anti-996",
@@ -16,6 +18,7 @@
     "@types/adm-zip": "^0.5.2",
     "@types/node": "^20.7.0",
     "ava": "^5.3.1",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "tsup": "^7.2.0"
   }
 }
