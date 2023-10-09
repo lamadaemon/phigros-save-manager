@@ -23,8 +23,8 @@ export namespace PhigrosSaveManager {
         return saveManager
     }
 
-    export async function decrypt(buff: Buffer) {
-        return PhigrosSave.decryptProfile(buff)
+    export async function decrypt(buff: Buffer, type?: string) {
+        return PhigrosSave.decryptProfile(buff, type)
     }
 
     export async function encrypt(buff: Buffer, type: string) {
