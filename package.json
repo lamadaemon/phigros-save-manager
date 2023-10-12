@@ -9,16 +9,29 @@
   "author": "lamadaemon",
   "license": "Anti-996",
   "private": false,
+  "scripts": {
+    "test": "ava",
+    "build": "tsup"
+  },
   "dependencies": {
     "adm-zip": "^0.5.10",
     "axios": "^1.5.1",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "@ava/typescript": "^4.1.0",
     "@types/adm-zip": "^0.5.2",
     "@types/node": "^20.7.0",
     "ava": "^5.3.1",
     "ts-node": "^10.9.1",
     "tsup": "^7.2.0"
+  },
+  "ava": {
+    "files": ["test/**"],
+
+    "extensions": [ "ts" ],
+    "require": [
+        "ts-node/register"
+    ]
   }
 }
