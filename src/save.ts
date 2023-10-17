@@ -8,10 +8,11 @@ import { PlayerGameKey } from "./types/key";
 import { PlayerGameProgress } from "./types/progress";
 import { PlayerSettings } from "./types/settings";
 import { PlayerInformation } from "./types/user";
-import { PlayerGameRecord } from "./types/record";
+import { LevelRecord, PlayerGameRecord } from "./types/record";
 import { PhigrosBinaryParseError } from "./phi-binary";
 import { GameSaveSummary } from "./types/summary";
 import { FilePartInfo, S2CRequestCreateFileToken, S2CRequestCreateUpload, S2CRequestUploadPart } from "./types/requests";
+import { getDifficaulty } from "./difficaulties";
 
 const supportedVersion: { [key: string]: number } = {
     'user': 1,
@@ -119,6 +120,47 @@ export class PhigrosSave {
 
     get summary() {
         return this._summary!
+    }
+
+    /**
+     * Calculate player's ranking score
+     * 
+     * The Player RKS is given by: (Best 19 RKS + Best RKS that have a 100% accuracy) / 20
+     * Song RKS is given by: (((100 * acc - 55) / 45) ** 2) * diff, acc >= 0.7
+     *                       0                                    , acc <  0.7
+     */
+    public rks(): number {        
+        let phiRks = 0
+        const allRks = []
+        for(const i of this.gameRecord.records) {
+            for (let j = 0; j < i.levelRecords.length; j++) {
+                const record = i.levelRecords[j]
+                const songRks = record.rks(getDifficaulty(i.songName, j))
+
+                allRks.push(songRks)
+
+                if (record.accuracy === 1 && songRks > phiRks) {
+                    phiRks = songRks
+                }
+            }
+        }
+
+        return (phiRks + allRks.sort((a, b) => b - a).slice(0, 19).reduce((prev, curr) => prev + curr)) / 20
+    }
+
+    public b19(): ((Omit<LevelRecord, 'rks'>) & { name: string, diff: number, rks: number })[] {
+        const allRks = []
+        for(const i of this.gameRecord.records) {
+            for (let j = 0; j < i.levelRecords.length; j++) {
+                const record = i.levelRecords[j]
+                const diff = getDifficaulty(i.songName, j)
+                const songRks = record.rks(diff)
+
+                allRks.push({...record, name: i.songName, diff: j, rks: songRks})
+            }
+        }
+
+        return allRks.sort((a, b) => b.rks - a.rks).slice(0, 19)
     }
 
     /**

@@ -45,6 +45,15 @@ export class PlayerGameRecord {
                             },
                             definition: {
                                 type: 'object',
+                                base: {
+                                    rks(diff: number) {
+                                        if (this.accuracy < 0.7) {
+                                            return 0
+                                        }     
+
+                                        return diff * (((this.accuracy * 100 - 55) / 45) ** 2)
+                                    }
+                                },
                                 definition: [
                                     {
                                         type: 'int',
@@ -84,7 +93,8 @@ export class PlayerGameRecord {
 
 export type LevelRecord = {
     score: number,
-    accuracy: number
+    accuracy: number,
+    rks: (diff: number) => number
 }
 
 export type PlayerRecord = {
@@ -92,5 +102,5 @@ export type PlayerRecord = {
     _unknownValue1: number, 
     levelExsistanceFlag: number,
     fcFlag: number,
-    levelRecords: LevelRecord[]
+    levelRecords: LevelRecord[],
 }

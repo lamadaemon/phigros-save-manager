@@ -28,7 +28,7 @@ A simple libaray for modify *Phigros* cloud save data.
 
 ## Future plans
 
-- [ ] Add support for calculating B19.
+- [x] Add support for calculating B19.
 - [ ] Add tests.
 - [ ] Migrate old code.
 - [ ] Add type definitions on binary files.

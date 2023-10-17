@@ -28,6 +28,7 @@ export interface PhigrosBinaryArrayStructure {
 export interface PhigrosBinaryObjectStructure  {
     type: 'object',
     field?: string,
+    base?: any
     definition: (PhigrosBinaryStructure & NamedField)[], // TODO: Add conditional field
 }
 
@@ -135,7 +136,7 @@ export class PhigrosBinaryFile {
             case 'boolean':
                 return this.readBoolean()
             case 'object':
-                const obj: any = {}
+                const obj: any = definition.base ?? {}
                 for (const i of definition.definition) {
                     obj[i.field] = this.readFromDefinition(i, { op: 'r', ctx: obj, curr: i, prev: ctx})
                 }
