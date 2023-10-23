@@ -1,10 +1,11 @@
 {
   "name": "phigros-save-manager",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple library for handle phigros saves",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "bin": "./dist/cli.js",
   "repository": "https://github.com/lamadaemon/phigros-save-manager",
   "author": "lamadaemon",
   "license": "Anti-996",
@@ -14,8 +15,10 @@
     "build": "tsup"
   },
   "dependencies": {
+    "@types/commander": "^2.12.2",
     "adm-zip": "^0.5.10",
     "axios": "^1.5.1",
+    "commander": "^11.1.0",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
@@ -27,11 +30,14 @@
     "tsup": "^7.2.0"
   },
   "ava": {
-    "files": ["test/**"],
-
-    "extensions": [ "ts" ],
+    "files": [
+      "test/**"
+    ],
+    "extensions": [
+      "ts"
+    ],
     "require": [
-        "ts-node/register"
+      "ts-node/register"
     ]
   }
 }

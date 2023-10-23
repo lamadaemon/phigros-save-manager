@@ -215,6 +215,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/commander@^2.12.2":
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/@types/commander/-/commander-2.12.2.tgz#183041a23842d4281478fa5d23c5ca78e6fd08ae"
+  integrity sha512-0QEFiR8ljcHp9bAbWxecjVRuAMr16ivPiGOw6KFQBVrVd0RQIcM3xKdRisH2EDWgVWujiYtHwhSkSUoAAGzH7Q==
+  dependencies:
+    commander "*"
+
 "@types/node@*":
   version "20.8.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.8.2.tgz#d76fb80d87d0d8abfe334fc6d292e83e5524efc4"
@@ -521,6 +528,11 @@ combined-stream@^1.0.8:
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
   dependencies:
     delayed-stream "~1.0.0"
+
+commander@*, commander@^11.1.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-11.1.0.tgz#62fdce76006a68e5c1ab3314dc92e800eb83d906"
+  integrity sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==
 
 commander@^4.0.0:
   version "4.1.1"
