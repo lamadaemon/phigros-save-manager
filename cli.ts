@@ -2,6 +2,7 @@
 
 import { program } from "commander";
 import { PhigrosSaveManager } from ".";
+import fs from 'fs'
 
 program
     .name("Phigros save manager CLI")
@@ -37,5 +38,28 @@ program.command("rere8")
 
         console.log("OK, chapter 8 is now unlocked")
     })
+
+program.command("backup")
+    .argument("<SessionToken>", "Your session token")
+    .action(async (token) => {
+        console.log("The script is now creating a backup...")
+
+        const save = await PhigrosSaveManager.loadCloudSave(token)
+        await save.backup(`${save.profile.name}-${Date.now()}.save`)
+
+        console.log(`OK, a backup is created and saved to ${save.profile.name}-${Date.now()}.save`)
+    })
+
+program.command("restore")
+    .argument("<SessionToken>", "Your session token")
+    .argument("<SaveFile>", "The save file to restore")
+    .action(async (token, file) => {
+        console.log("The script is now restoring a backup...")
+
+        const save = await PhigrosSaveManager.loadLocalSave(token, fs.readFileSync(file))
+        await save.uploadSave()
+
+        console.log(`OK, the backup is restored`)
+    })    
 
 program.parse()

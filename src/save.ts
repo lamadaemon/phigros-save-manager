@@ -64,6 +64,9 @@ export class PhigrosSave {
     }
 
     async loadSave(buffer: Buffer) {
+        this.save = (await this.readRemoteSaves()).results[0]
+        this._summary = new GameSaveSummary(Buffer.from(this.save!.summary, 'base64'))
+
         const saveLocal = new AdmZip(buffer)
         const entries = await saveLocal.getEntries()
         for (const i of entries) {
@@ -120,6 +123,10 @@ export class PhigrosSave {
 
     get summary() {
         return this._summary!
+    }
+
+    get profile() {
+        return this.save!
     }
 
     /**
