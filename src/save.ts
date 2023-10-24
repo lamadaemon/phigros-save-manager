@@ -452,6 +452,15 @@ export class PhigrosSave {
             throw new APIError(`API Request failed! This library may outdated! Expected Status Code: 200, but Recived: ${response.status}, Server Reply: ${response.data}`)
         }
     }
+
+    public async refreshToken() {
+        const { data } = await this.httpClient.request({
+            url: APIEndpoints.logout(this.save!.user.objectId),
+            method: 'PUT'
+        })
+
+        return JSON.parse(data).sessionToken
+    }
 }
 
 export class APIError extends Error { }

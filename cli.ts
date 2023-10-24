@@ -62,4 +62,14 @@ program.command("restore")
         console.log(`OK, the backup is restored`)
     })    
 
+program.command("refresh")
+    .argument("<SessionToken>", "Your session token")
+    .action(async (token) => {
+        console.log("Refreshing session token...")
+
+        const save = await PhigrosSaveManager.refreshToken(token)
+
+        console.log(`OK, the token ${token} is now no longer valid. Your new token is: ${save}`)
+    })
+
 program.parse()

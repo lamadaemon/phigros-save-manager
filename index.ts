@@ -23,6 +23,13 @@ export namespace PhigrosSaveManager {
         return saveManager
     }
 
+    export async function refreshToken(token: string) {
+        const saveManager = new PhigrosSave(token)
+        await saveManager.init()
+
+        return await saveManager.refreshToken()
+    }
+
     export async function decrypt(buff: Buffer, type?: string) {
         return PhigrosSave.decryptProfile(buff, type)
     }
