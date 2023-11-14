@@ -142,16 +142,19 @@ export class PhigrosSave {
         for(const i of this.gameRecord.records) {
             for (let j = 0; j < i.levelRecords.length; j++) {
                 const record = i.levelRecords[j]
-                const songRks = record.rks(getDifficaulty(i.songName, j))
 
+                if (!record) {
+                    continue
+                }
+
+                const songRks = record.rks(getDifficaulty(i.songName.substring(0, i.songName.length - 2), j))
                 allRks.push(songRks)
 
-                if (record.accuracy === 1 && songRks > phiRks) {
+                if (record.accuracy === 100 && songRks > phiRks) {
                     phiRks = songRks
                 }
             }
         }
-
         return (phiRks + allRks.sort((a, b) => b - a).slice(0, 19).reduce((prev, curr) => prev + curr)) / 20
     }
 
@@ -216,6 +219,11 @@ export class PhigrosSave {
     }
 
     async downloadSave(): Promise<Buffer> {
+        if (!this.save) {
+            this.save = (await this.readRemoteSaves()).results[0]
+            this._summary = new GameSaveSummary(Buffer.from(this.save!.summary, 'base64'))
+        }
+
         const { data, status } = await axios.get(this.save!.gameFile.url, {
             responseType: 'arraybuffer'
         })
@@ -459,7 +467,13 @@ export class PhigrosSave {
             method: 'PUT'
         })
 
-        return JSON.parse(data).sessionToken
+        const response = JSON.parse(data)
+
+        if (!response.sessionToken) {
+            throw new APIError(`Server request rejected! Server Reply: code${response.code}, error=${response.error}`)
+        }
+
+        return response.sessionToken
     }
 }
 

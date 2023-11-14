@@ -117,7 +117,9 @@ export class PhigrosBinaryFile {
 
                 const arr: any[] = [];
                 for (let i = 0; i < len; i++) {
-                    if (!condition(this,  { op: 'r', ctx: arr, curr: i, prev: ctx})) {
+                    if (condition(this,  { op: 'r', ctx: arr, curr: i, prev: ctx})) {
+                        arr.push(null)
+                    } else {
                         arr.push(this.readFromDefinition(definition.definition, { op: 'r', ctx: arr, curr: i, prev: ctx}))
                     }
                 }
@@ -235,6 +237,10 @@ export class PhigrosBinaryFile {
                 } // else -> Fixed Length no need write length of array
 
                 for (let i = 0; i < len; i ++) {
+                    if (!value[i]) {
+                        continue
+                    }
+
                     this.writeFromDefinition(definition.definition, (<any[]>value)[i])
                 }
                 break;

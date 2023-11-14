@@ -47,11 +47,11 @@ export class PlayerGameRecord {
                                 type: 'object',
                                 base: {
                                     rks(diff: number) {
-                                        if (this.accuracy < 0.7) {
+                                        if (this.accuracy < 70) {
                                             return 0
                                         }     
 
-                                        return diff * (((this.accuracy * 100 - 55) / 45) ** 2)
+                                        return diff * (((this.accuracy - 55) / 45) ** 2)
                                     }
                                 },
                                 definition: [

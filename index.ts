@@ -23,6 +23,12 @@ export namespace PhigrosSaveManager {
         return saveManager
     }
 
+    export async function downloadSave(token: string) {
+        const saveManager = new PhigrosSave(token)
+        
+        return await saveManager.downloadSave()
+    }
+
     export async function refreshToken(token: string) {
         const saveManager = new PhigrosSave(token)
         await saveManager.init()

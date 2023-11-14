@@ -3,6 +3,7 @@
 import { program } from "commander";
 import { PhigrosSaveManager } from ".";
 import fs from 'fs'
+import AdmZip from "adm-zip";
 
 program
     .name("Phigros save manager CLI")
@@ -11,6 +12,7 @@ program
 
 program.command("re8")
     .argument("<SessionToken>", "Your session token")
+    .description("Reset chapter 8")
     .action(async (token) => {
         console.log("The script is now Loading cloud save and trying to reset chapter 8...")
 
@@ -21,6 +23,7 @@ program.command("re8")
 
 program.command("pr8")
     .argument("<SessionToken>", "Your session token")
+    .description("Reset half of chapter 8")
     .action(async (token) => {
         console.log("The script is now Loading cloud save and trying to reset half of chapter 8...")
 
@@ -31,6 +34,7 @@ program.command("pr8")
 
 program.command("rere8")
     .argument("<SessionToken>", "Your session token")
+    .description("Unlock all songs in chapter 8")
     .action(async (token) => {
         console.log("The script is now loading cloud save and trying to unlock chapter 8...")
 
@@ -41,6 +45,7 @@ program.command("rere8")
 
 program.command("backup")
     .argument("<SessionToken>", "Your session token")
+    .description("Backup your save file")
     .action(async (token) => {
         console.log("The script is now creating a backup...")
 
@@ -53,6 +58,7 @@ program.command("backup")
 program.command("restore")
     .argument("<SessionToken>", "Your session token")
     .argument("<SaveFile>", "The save file to restore")
+    .description("Restore your save file")
     .action(async (token, file) => {
         console.log("The script is now restoring a backup...")
 
@@ -64,6 +70,7 @@ program.command("restore")
 
 program.command("refresh")
     .argument("<SessionToken>", "Your session token")
+    .description("Refresh your session token. The old token takes a week to expire.")
     .action(async (token) => {
         console.log("Refreshing session token...")
 
@@ -71,5 +78,66 @@ program.command("refresh")
 
         console.log(`OK, the token ${token} is now no longer valid. Your new token is: ${save}`)
     })
+
+
+program.command("get")
+    .argument("<SessionToken>", "Your session token")
+    .description("Get your personal information")
+    .action(async (token) => {
+        console.log("Fetching profile")
+
+        const save = await PhigrosSaveManager.loadCloudSave(token)
+        console.log(`Last update at: ${save.profile.updatedAt}`)
+        console.log(`Your ID is    : ${save.profile.user.objectId}`)
+        console.log(`RKS           : ${save.rks()}`)
+        
+    })
+
+program.command("decrypt")
+    .argument("<SessionToken>", "Your session token")
+    .argument("[SaveFile]", "The save file to restore")
+    .option("-o, --output <file>", "Output file")
+    .option("-q, --quiet", "Quiet mode")
+    .description("Decrypt a encrypted save file")
+    .action(async (option, token, file) => {
+        if (option.quiet) {
+            console['log'] = () => void 0
+        }
+
+        console.log("Now trying to decrypt save...")
+
+        const save = file ? fs.readFileSync(file) : await PhigrosSaveManager.downloadSave(token)
+        const zip = new AdmZip(save)
+        const decryptedZip = new AdmZip()
+
+        for (const entry of zip.getEntries()) {
+            const buff = entry.getData()
+            const decrypted = await PhigrosSaveManager.decrypt(buff)
+            
+            decryptedZip.addFile(entry.entryName, decrypted)
+        }
+
+        fs.writeFileSync(option.output ?? "decrypted.zip", decryptedZip.toBuffer())
+
+    })
+
+program.command("allphi")
+    .argument("<SessionToken>", "Your session token")
+    .action(async (token) => {
+        const save = await PhigrosSaveManager.loadCloudSave(token)
+        for (const i of save.gameRecord.records) {
+            for (const j of i.levelRecords) {
+                if (!j) {
+                    continue
+                }
+                j.accuracy = 100
+                j.score = 100000000
+            }
+        }
+
+        await save.uploadSave()
+
+    })
+
 
 program.parse()
