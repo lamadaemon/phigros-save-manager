@@ -177,10 +177,10 @@ export class PhigrosSave {
      * Fully unlock chapter 8
      */
     public rere8() {
-        this._gameProgress!.chapter8Passed = true
-        this._gameProgress!.chapter8SongUnlocked = 63
-        this._gameProgress!.chapter8UnlockBegin = true
-        this._gameProgress!.chapter8UnlockSecondPhase = true
+        this.gameProgress.chapter8Passed = true
+        this.gameProgress.chapter8SongUnlocked = 63
+        this.gameProgress.chapter8UnlockBegin = true
+        this.gameProgress.chapter8UnlockSecondPhase = true
         return this
     }
 
@@ -188,10 +188,10 @@ export class PhigrosSave {
      * Clear unlock state of chapter 8
      */
     public re8() {
-        this._gameProgress!.chapter8Passed = false
-        this._gameProgress!.chapter8SongUnlocked = 0
-        this._gameProgress!.chapter8UnlockBegin = false
-        this._gameProgress!.chapter8UnlockSecondPhase = false
+        this.gameProgress.chapter8Passed = false
+        this.gameProgress.chapter8SongUnlocked = 0
+        this.gameProgress.chapter8UnlockBegin = false
+        this.gameProgress.chapter8UnlockSecondPhase = false
         return this
     }
 
@@ -200,10 +200,10 @@ export class PhigrosSave {
      * Unlock Crave Wave, The Chariot ~REVIIVAL~, Retribution, and DESTRUCTION 3,2,1
      */
     public partialRe8() {
-        this._gameProgress!.chapter8Passed = false
-        this._gameProgress!.chapter8SongUnlocked = 27 // Unlock Crave Wave, The Chariot ~REVIIVAL~, Retribution, and DESTRUCTION 3,2,1
-        this._gameProgress!.chapter8UnlockBegin = true
-        this._gameProgress!.chapter8UnlockSecondPhase = true
+        this.gameProgress.chapter8Passed = false
+        this.gameProgress.chapter8SongUnlocked = 27 // Unlock Crave Wave, The Chariot ~REVIIVAL~, Retribution, and DESTRUCTION 3,2,1
+        this.gameProgress.chapter8UnlockBegin = true
+        this.gameProgress.chapter8UnlockSecondPhase = true
         return this
     }
 

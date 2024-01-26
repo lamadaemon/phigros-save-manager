@@ -3,22 +3,22 @@ import { FieldEntry, PhigrosBinaryFile } from "../phi-binary"
 export class PlayerGameProgress {
     private binary: PhigrosBinaryFile
 
-    isFirstRun: FieldEntry
-    legacyChapterFinished: FieldEntry
-    alreadyShowCollectionTip: FieldEntry
-    alreadyShowAutoUnlockINTip: FieldEntry
-    completed: FieldEntry
-    songUpdateInfo: FieldEntry
-    challengeModeRank: FieldEntry
-    money: FieldEntry
-    unlockFlagOfSpasmodic: FieldEntry
-    unlockFlagOfIgallta: FieldEntry
-    unlockFlagOfRrharil: FieldEntry
-    flagOfSongRecordKey: FieldEntry
-    randomVersionUnlocked: FieldEntry
-    chapter8UnlockBegin: FieldEntry
-    chapter8UnlockSecondPhase: FieldEntry
-    chapter8Passed: FieldEntry
+    _isFirstRun: FieldEntry
+    _legacyChapterFinished: FieldEntry
+    _alreadyShowCollectionTip: FieldEntry
+    _alreadyShowAutoUnlockINTip: FieldEntry
+    _completed: FieldEntry
+    _songUpdateInfo: FieldEntry
+    _challengeModeRank: FieldEntry
+    _money: FieldEntry
+    _unlockFlagOfSpasmodic: FieldEntry
+    _unlockFlagOfIgallta: FieldEntry
+    _unlockFlagOfRrharil: FieldEntry
+    _flagOfSongRecordKey: FieldEntry
+    _randomVersionUnlocked: FieldEntry
+    _chapter8UnlockBegin: FieldEntry
+    _chapter8UnlockSecondPhase: FieldEntry
+    _chapter8Passed: FieldEntry
 
     /**
      * Bits representations:
@@ -30,7 +30,7 @@ export class PlayerGameProgress {
      * 4: Distorted Fate
      * 5: DESTRUCTION 3,2,1
      */
-    chapter8SongUnlocked: FieldEntry
+    _chapter8SongUnlocked: FieldEntry
     
 
     /**
@@ -121,23 +121,23 @@ export class PlayerGameProgress {
 
             TODO: Migrate to new version (Checkout GameKey)
         */
-        this.isFirstRun = this.binary.getEntry('isFirstRun')!
-        this.legacyChapterFinished = this.binary.getEntry('legacyChapterFinished')!
-        this.alreadyShowCollectionTip = this.binary.getEntry('alreadyShowCollectionTip')!
-        this.alreadyShowAutoUnlockINTip = this.binary.getEntry('alreadyShowAutoUnlockINTip')!
-        this.completed = this.binary.getEntry('completed')!
-        this.songUpdateInfo = this.binary.getEntry('songUpdateInfo')!
-        this.challengeModeRank = this.binary.getEntry('challengeModeRank')!
-        this.money = this.binary.getEntry('money')!
-        this.unlockFlagOfSpasmodic = this.binary.getEntry('unlockFlagOfSpasmodic')!
-        this.unlockFlagOfIgallta = this.binary.getEntry('unlockFlagOfIgallta')!
-        this.unlockFlagOfRrharil = this.binary.getEntry('unlockFlagOfRrharil')!
-        this.flagOfSongRecordKey = this.binary.getEntry('flagOfSongRecordKey')!
-        this.randomVersionUnlocked = this.binary.getEntry('randomVersionUnlocked')!
-        this.chapter8UnlockBegin = this.binary.getEntry('chapter8UnlockBegin')!
-        this.chapter8UnlockSecondPhase = this.binary.getEntry('chapter8UnlockSecondPhase')!
-        this.chapter8Passed = this.binary.getEntry('chapter8Passed')!
-        this.chapter8SongUnlocked = this.binary.getEntry('chapter8SongUnlocked')!
+        this._isFirstRun = this.binary.getEntry('isFirstRun')!
+        this._legacyChapterFinished = this.binary.getEntry('legacyChapterFinished')!
+        this._alreadyShowCollectionTip = this.binary.getEntry('alreadyShowCollectionTip')!
+        this._alreadyShowAutoUnlockINTip = this.binary.getEntry('alreadyShowAutoUnlockINTip')!
+        this._completed = this.binary.getEntry('completed')!
+        this._songUpdateInfo = this.binary.getEntry('songUpdateInfo')!
+        this._challengeModeRank = this.binary.getEntry('challengeModeRank')!
+        this._money = this.binary.getEntry('money')!
+        this._unlockFlagOfSpasmodic = this.binary.getEntry('unlockFlagOfSpasmodic')!
+        this._unlockFlagOfIgallta = this.binary.getEntry('unlockFlagOfIgallta')!
+        this._unlockFlagOfRrharil = this.binary.getEntry('unlockFlagOfRrharil')!
+        this._flagOfSongRecordKey = this.binary.getEntry('flagOfSongRecordKey')!
+        this._randomVersionUnlocked = this.binary.getEntry('randomVersionUnlocked')!
+        this._chapter8UnlockBegin = this.binary.getEntry('chapter8UnlockBegin')!
+        this._chapter8UnlockSecondPhase = this.binary.getEntry('chapter8UnlockSecondPhase')!
+        this._chapter8Passed = this.binary.getEntry('chapter8Passed')!
+        this._chapter8SongUnlocked = this.binary.getEntry('chapter8SongUnlocked')!
 
     }
 
@@ -146,160 +146,160 @@ export class PlayerGameProgress {
     save(): Buffer {
         this.binary.clearBuffer()
 
-        this.binary.setEntry(this.isFirstRun)
-        this.binary.setEntry(this.legacyChapterFinished)
-        this.binary.setEntry(this.alreadyShowCollectionTip)
-        this.binary.setEntry(this.alreadyShowAutoUnlockINTip)
-        this.binary.setEntry(this.completed)
-        this.binary.setEntry(this.songUpdateInfo)
-        this.binary.setEntry(this.challengeModeRank)
-        this.binary.setEntry(this.money)
-        this.binary.setEntry(this.unlockFlagOfSpasmodic)
-        this.binary.setEntry(this.unlockFlagOfIgallta)
-        this.binary.setEntry(this.unlockFlagOfRrharil)
-        this.binary.setEntry(this.flagOfSongRecordKey)
-        this.binary.setEntry(this.randomVersionUnlocked)
-        this.binary.setEntry(this.chapter8UnlockBegin)
-        this.binary.setEntry(this.chapter8UnlockSecondPhase)
-        this.binary.setEntry(this.chapter8Passed)
-        this.binary.setEntry(this.chapter8SongUnlocked)
+        this.binary.setEntry(this._isFirstRun)
+        this.binary.setEntry(this._legacyChapterFinished)
+        this.binary.setEntry(this._alreadyShowCollectionTip)
+        this.binary.setEntry(this._alreadyShowAutoUnlockINTip)
+        this.binary.setEntry(this._completed)
+        this.binary.setEntry(this._songUpdateInfo)
+        this.binary.setEntry(this._challengeModeRank)
+        this.binary.setEntry(this._money)
+        this.binary.setEntry(this._unlockFlagOfSpasmodic)
+        this.binary.setEntry(this._unlockFlagOfIgallta)
+        this.binary.setEntry(this._unlockFlagOfRrharil)
+        this.binary.setEntry(this._flagOfSongRecordKey)
+        this.binary.setEntry(this._randomVersionUnlocked)
+        this.binary.setEntry(this._chapter8UnlockBegin)
+        this.binary.setEntry(this._chapter8UnlockSecondPhase)
+        this.binary.setEntry(this._chapter8Passed)
+        this.binary.setEntry(this._chapter8SongUnlocked)
         
         return this.binary.saveBuffer()
     }
 
-    get chapter8SongUnlockedValue(): number {
-        return this.chapter8SongUnlocked.value
+    get isFirstRun(): boolean {
+        return this._isFirstRun.value
     }
 
-    set chapter8SongUnlockedValue(value: number) {
-        this.chapter8SongUnlocked.value = value
+    set isFirstRun(newVal: boolean) {
+        this._isFirstRun.value = newVal
     }
 
-    get isFirstRunValue(): boolean {
-        return this.isFirstRun.value
+    get legacyChapterFinished(): boolean {
+        return this._legacyChapterFinished.value
     }
 
-    set isFirstRunValue(value: boolean) {
-        this.isFirstRun.value = value
+    set legacyChapterFinished(newVal: boolean) {
+        this._legacyChapterFinished.value = newVal
     }
 
-    get legacyChapterFinishedValue(): boolean {
-        return this.legacyChapterFinished.value
+    get alreadyShowCollectionTip(): boolean {
+        return this._alreadyShowCollectionTip.value
     }
 
-    set legacyChapterFinishedValue(value: boolean) {
-        this.legacyChapterFinished.value = value
+    set alreadyShowCollectionTip(newVal: boolean) {
+        this._alreadyShowCollectionTip.value = newVal
     }
 
-    get alreadyShowCollectionTipValue(): boolean {
-        return this.alreadyShowCollectionTip.value
+    get alreadyShowAutoUnlockINTip(): boolean {
+        return this._alreadyShowAutoUnlockINTip.value
     }
 
-    set alreadyShowCollectionTipValue(value: boolean) {
-        this.alreadyShowCollectionTip.value = value
+    set alreadyShowAutoUnlockINTip(newVal: boolean) {
+        this._alreadyShowAutoUnlockINTip.value = newVal
     }
 
-    get alreadyShowAutoUnlockINTipValue(): boolean {
-        return this.alreadyShowAutoUnlockINTip.value
+    get completed(): string {
+        return this._completed.value
     }
 
-    set alreadyShowAutoUnlockINTipValue(value: boolean) {
-        this.alreadyShowAutoUnlockINTip.value = value
+    set completed(newVal: string) {
+        this._completed.value = newVal
     }
 
-    get completedValue(): string {
-        return this.completed.value
+    get songUpdateInfo(): number {
+        return this._songUpdateInfo.value
     }
 
-    set completedValue(value: string) {
-        this.completed.value = value
+    set songUpdateInfo(newVal: number) {
+        this._songUpdateInfo.value = newVal
     }
 
-    get songUpdateInfoValue(): number {
-        return this.songUpdateInfo.value
+    get challengeModeRank(): number {
+        return this._challengeModeRank.value
     }
 
-    set songUpdateInfoValue(value: number) {
-        this.songUpdateInfo.value = value
+    set challengeModeRank(newVal: number) {
+        this._challengeModeRank.value = newVal
     }
 
-    get challengeModeRankValue(): number {
-        return this.challengeModeRank.value
+    get money(): number[] {
+        return this._money.value
     }
 
-    set challengeModeRankValue(value: number) {
-        this.challengeModeRank.value = value
+    set money(newVal: number[]) {
+        this._money.value = newVal
     }
 
-    get moneyValue(): number[] {
-        return this.money.value
+    get unlockFlagOfSpasmodic(): number {
+        return this._unlockFlagOfSpasmodic.value
     }
 
-    set moneyValue(value: number[]) {
-        this.money.value = value
+    set unlockFlagOfSpasmodic(newVal: number) {
+        this._unlockFlagOfSpasmodic.value = newVal
     }
 
-    get unlockFlagOfSpasmodicValue(): number {
-        return this.unlockFlagOfSpasmodic.value
+    get unlockFlagOfIgallta(): number {
+        return this._unlockFlagOfIgallta.value
     }
 
-    set unlockFlagOfSpasmodicValue(value: number) {
-        this.unlockFlagOfSpasmodic.value = value
+    set unlockFlagOfIgallta(newVal: number) {
+        this._unlockFlagOfIgallta.value = newVal
     }
 
-    get unlockFlagOfIgalltaValue(): number {
-        return this.unlockFlagOfIgallta.value
+    get unlockFlagOfRrharil(): number {
+        return this._unlockFlagOfRrharil.value
     }
 
-    set unlockFlagOfIgalltaValue(value: number) {
-        this.unlockFlagOfIgallta.value = value
+    set unlockFlagOfRrharil(newVal: number) {
+        this._unlockFlagOfRrharil.value = newVal
     }
 
-    get unlockFlagOfRrharilValue(): number {
-        return this.unlockFlagOfRrharil.value
+    get flagOfSongRecordKey(): number {
+        return this._flagOfSongRecordKey.value
     }
 
-    set unlockFlagOfRrharilValue(value: number) {
-        this.unlockFlagOfRrharil.value = value
+    set flagOfSongRecordKey(newVal: number) {
+        this._flagOfSongRecordKey.value = newVal
     }
 
-    get flagOfSongRecordKeyValue(): number {
-        return this.flagOfSongRecordKey.value
+    get randomVersionUnlocked(): number {
+        return this._randomVersionUnlocked.value
     }
 
-    set flagOfSongRecordKeyValue(value: number) {
-        this.flagOfSongRecordKey.value = value
+    set randomVersionUnlocked(newVal: number) {
+        this._randomVersionUnlocked.value = newVal
     }
 
-    get randomVersionUnlockedValue(): number {
-        return this.randomVersionUnlocked.value
+    get chapter8UnlockBegin(): boolean {
+        return this._chapter8UnlockBegin.value
     }
 
-    set randomVersionUnlockedValue(value: number) {
-        this.randomVersionUnlocked.value = value
+    set chapter8UnlockBegin(newVal: boolean) {
+        this._chapter8UnlockBegin.value = newVal
     }
 
-    get chapter8UnlockBeginValue(): boolean {
-        return this.chapter8UnlockBegin.value
+    get chapter8UnlockSecondPhase(): boolean {
+        return this._chapter8UnlockSecondPhase.value
     }
 
-    set chapter8UnlockBeginValue(value: boolean) {
-        this.chapter8UnlockBegin.value = value
+    set chapter8UnlockSecondPhase(newVal: boolean) {
+        this._chapter8UnlockSecondPhase.value = newVal
     }
 
-    get chapter8UnlockSecondPhaseValue(): boolean {
-        return this.chapter8UnlockSecondPhase.value
+    get chapter8Passed(): boolean {
+        return this._chapter8Passed.value
     }
 
-    set chapter8UnlockSecondPhaseValue(value: boolean) {
-        this.chapter8UnlockSecondPhase.value = value
+    set chapter8Passed(newVal: boolean) {
+        this._chapter8Passed.value = newVal
     }
 
-    get chapter8PassedValue(): boolean {
-        return this.chapter8Passed.value
+    get chapter8SongUnlocked(): number {
+        return this._chapter8SongUnlocked.value
     }
 
-    set chapter8PassedValue(value: boolean) {
-        this.chapter8Passed.value = value
+    set chapter8SongUnlocked(newVal: number) {
+        this._chapter8SongUnlocked.value = newVal
     }
 }

@@ -3,17 +3,17 @@ import { FieldEntry, PhigrosBinaryFile } from '../phi-binary'
 export class PlayerSettings {
     private binary: PhigrosBinaryFile
 
-    public chordSupport: FieldEntry
-    public fcAPIndicator: FieldEntry
-    public enableHitSound: FieldEntry
-    public lowResolutionMode: FieldEntry
-    public deviceName: FieldEntry
-    public brightness: FieldEntry
-    public musicVolume: FieldEntry
-    public effectVolume: FieldEntry
-    public hitsoundVolume: FieldEntry
-    public soundOffset: FieldEntry
-    public noteScale: FieldEntry
+    public _chordSupport: FieldEntry
+    public _fcAPIndicator: FieldEntry
+    public _enableHitSound: FieldEntry
+    public _lowResolutionMode: FieldEntry
+    public _deviceName: FieldEntry
+    public _brightness: FieldEntry
+    public _musicVolume: FieldEntry
+    public _effectVolume: FieldEntry
+    public _hitsoundVolume: FieldEntry
+    public _soundOffset: FieldEntry
+    public _noteScale: FieldEntry
 
     /**
      * 
@@ -69,123 +69,123 @@ export class PlayerSettings {
 
         this.binary.loadBuffer(buff)
         
-        this.chordSupport = this.binary.getEntry("chordSupport")!
-        this.fcAPIndicator = this.binary.getEntry("fcAPIndicator")!
-        this.enableHitSound = this.binary.getEntry("enableHitSound")!
-        this.lowResolutionMode = this.binary.getEntry("lowResolutionMode")!
-        this.deviceName = this.binary.getEntry("deviceName")!
-        this.brightness = this.binary.getEntry("bright")!
-        this.musicVolume = this.binary.getEntry("musicVolume")!
-        this.effectVolume = this.binary.getEntry("effectVolume")!
-        this.hitsoundVolume = this.binary.getEntry("hsVolume")!
-        this.soundOffset = this.binary.getEntry('soundOffset')!
-        this.noteScale = this.binary.getEntry("noteScale")!
+        this._chordSupport = this.binary.getEntry("chordSupport")!
+        this._fcAPIndicator = this.binary.getEntry("fcAPIndicator")!
+        this._enableHitSound = this.binary.getEntry("enableHitSound")!
+        this._lowResolutionMode = this.binary.getEntry("lowResolutionMode")!
+        this._deviceName = this.binary.getEntry("deviceName")!
+        this._brightness = this.binary.getEntry("bright")!
+        this._musicVolume = this.binary.getEntry("musicVolume")!
+        this._effectVolume = this.binary.getEntry("effectVolume")!
+        this._hitsoundVolume = this.binary.getEntry("hsVolume")!
+        this._soundOffset = this.binary.getEntry('soundOffset')!
+        this._noteScale = this.binary.getEntry("noteScale")!
     }
 
     save(): Buffer {
         this.binary.clearBuffer()
 
-        this.binary.setEntry(this.chordSupport)
-        this.binary.setEntry(this.fcAPIndicator)
-        this.binary.setEntry(this.enableHitSound)
-        this.binary.setEntry(this.lowResolutionMode)
-        this.binary.setEntry(this.deviceName)
-        this.binary.setEntry(this.brightness)
-        this.binary.setEntry(this.musicVolume)
-        this.binary.setEntry(this.effectVolume)
-        this.binary.setEntry(this.hitsoundVolume)
-        this.binary.setEntry(this.soundOffset)
-        this.binary.setEntry(this.noteScale)
+        this.binary.setEntry(this._chordSupport)
+        this.binary.setEntry(this._fcAPIndicator)
+        this.binary.setEntry(this._enableHitSound)
+        this.binary.setEntry(this._lowResolutionMode)
+        this.binary.setEntry(this._deviceName)
+        this.binary.setEntry(this._brightness)
+        this.binary.setEntry(this._musicVolume)
+        this.binary.setEntry(this._effectVolume)
+        this.binary.setEntry(this._hitsoundVolume)
+        this.binary.setEntry(this._soundOffset)
+        this.binary.setEntry(this._noteScale)
 
         return this.binary.saveBuffer() 
     }
 
-    get chordSupportValue(): boolean {
-        return this.chordSupport.value
-    }
-    
-    set chordSupportValue(value: boolean) {
-        this.chordSupport.value = value
+    get chordSupport(): boolean {
+        return this._chordSupport.value
     }
 
-    get fcAPIndicatorValue(): boolean {
-        return this.fcAPIndicator.value
+    set chordSupport(newVal: boolean) {
+        this._chordSupport.value = newVal
     }
 
-    set fcAPIndicatorValue(value: boolean) {
-        this.fcAPIndicator.value = value
+    get fcAPIndicator(): boolean {
+        return this._fcAPIndicator.value
     }
 
-    get enableHitSoundValue(): boolean {
-        return this.enableHitSound.value
+    set fcAPIndicator(newVal: boolean) {
+        this._fcAPIndicator.value = newVal
     }
 
-    set enableHitSoundValue(value: boolean) {
-        this.enableHitSound.value = value
+    get enableHitSound(): boolean {
+        return this._enableHitSound.value
     }
 
-    get lowResolutionModeValue(): boolean {
-        return this.lowResolutionMode.value
+    set enableHitSound(newVal: boolean) {
+        this._enableHitSound.value = newVal
     }
 
-    set lowResolutionModeValue(value: boolean) {
-        this.lowResolutionMode.value = value
+    get lowResolutionMode(): boolean {
+        return this._lowResolutionMode.value
     }
 
-    get deviceNameValue(): string {
-        return this.deviceName.value
+    set lowResolutionMode(newVal: boolean) {
+        this._lowResolutionMode.value = newVal
     }
 
-    set deviceNameValue(value: string) {
-        this.deviceName.value = value
+    get deviceName(): string {
+        return this._deviceName.value
     }
 
-    get brightnessValue(): number {
-        return this.brightness.value
+    set deviceName(newVal: string) {
+        this._deviceName.value = newVal
     }
 
-    set brightnessValue(value: number) {
-        this.brightness.value = value
+    get brightness(): number {
+        return this._brightness.value
     }
 
-    get musicVolumeValue(): number {
-        return this.musicVolume.value
+    set brightness(newVal: number) {
+        this._brightness.value = newVal
     }
 
-    set musicVolumeValue(value: number) {
-        this.musicVolume.value = value
+    get musicVolume(): number {
+        return this._musicVolume.value
     }
 
-    get effectVolumeValue(): number {
-        return this.effectVolume.value
+    set musicVolume(newVal: number) {
+        this._musicVolume.value = newVal
     }
 
-    set effectVolumeValue(value: number) {
-        this.effectVolume.value = value
+    get effectVolume(): number {
+        return this._effectVolume.value
     }
 
-    get hitsoundVolumeValue(): number {
-        return this.hitsoundVolume.value
+    set effectVolume(newVal: number) {
+        this._effectVolume.value = newVal
     }
 
-    set hitsoundVolumeValue(value: number) {
-        this.hitsoundVolume.value = value
+    get hitsoundVolume(): number {
+        return this._hitsoundVolume.value
     }
 
-    get soundOffsetValue(): number {
-        return this.soundOffset.value
+    set hitsoundVolume(newVal: number) {
+        this._hitsoundVolume.value = newVal
     }
 
-    set soundOffsetValue(value: number) {
-        this.soundOffset.value = value
+    get soundOffset(): number {
+        return this._soundOffset.value
     }
 
-    get noteScaleValue(): number {
-        return this.noteScale.value
+    set soundOffset(newVal: number) {
+        this._soundOffset.value = newVal
     }
 
-    set noteScaleValue(value: number) {
-        this.noteScale.value = value
+    get noteScale(): number {
+        return this._noteScale.value
+    }
+
+    set noteScale(newVal: number) {
+        this._noteScale.value = newVal
     }
 
 }

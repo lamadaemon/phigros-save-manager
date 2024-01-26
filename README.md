@@ -26,6 +26,16 @@ A simple libaray for modify *Phigros* cloud save data.
         - parcialRe8: Reset half of the chapter 8
         - rere8: Unlock all songs in the chapter 8
 
+## CLI Usage
+
+phigros-save-manager provides a useful CLI to easily reset chapter 8, backup your cloud save, and other utilities.
+
+You can use the following command to get detialed subcommand explaination.
+
+```
+phigrous-save-manager
+```
+
 ## Future plans
 
 - [x] Add support for calculating B19.
