@@ -1,24 +1,24 @@
-import { PhigrosBinaryFile } from "../phi-binary"
+import { FieldEntry, PhigrosBinaryFile } from "../phi-binary"
 
 export class PlayerGameProgress {
     private binary: PhigrosBinaryFile
 
-    isFirstRun: boolean
-    legacyChapterFinished: boolean
-    alreadyShowCollectionTip: boolean
-    alreadyShowAutoUnlockINTip: boolean
-    completed: string
-    songUpdateInfo: number
-    challengeModeRank: number
-    money: number[]
-    unlockFlagOfSpasmodic: number
-    unlockFlagOfIgallta: number
-    unlockFlagOfRrharil: number
-    flagOfSongRecordKey: number
-    randomVersionUnlocked: number
-    chapter8UnlockBegin: boolean
-    chapter8UnlockSecondPhase: boolean
-    chapter8Passed: boolean
+    isFirstRun: FieldEntry
+    legacyChapterFinished: FieldEntry
+    alreadyShowCollectionTip: FieldEntry
+    alreadyShowAutoUnlockINTip: FieldEntry
+    completed: FieldEntry
+    songUpdateInfo: FieldEntry
+    challengeModeRank: FieldEntry
+    money: FieldEntry
+    unlockFlagOfSpasmodic: FieldEntry
+    unlockFlagOfIgallta: FieldEntry
+    unlockFlagOfRrharil: FieldEntry
+    flagOfSongRecordKey: FieldEntry
+    randomVersionUnlocked: FieldEntry
+    chapter8UnlockBegin: FieldEntry
+    chapter8UnlockSecondPhase: FieldEntry
+    chapter8Passed: FieldEntry
 
     /**
      * Bits representations:
@@ -30,7 +30,7 @@ export class PlayerGameProgress {
      * 4: Distorted Fate
      * 5: DESTRUCTION 3,2,1
      */
-    chapter8SongUnlocked: number
+    chapter8SongUnlocked: FieldEntry
     
 
     /**
@@ -121,23 +121,23 @@ export class PlayerGameProgress {
 
             TODO: Migrate to new version (Checkout GameKey)
         */
-        this.isFirstRun = <boolean>this.binary.get('isFirstRun')
-        this.legacyChapterFinished = <boolean>this.binary.get('legacyChapterFinished')
-        this.alreadyShowCollectionTip = <boolean>this.binary.get('alreadyShowCollectionTip')
-        this.alreadyShowAutoUnlockINTip = <boolean>this.binary.get('alreadyShowAutoUnlockINTip')
-        this.completed = <string>this.binary.get('completed')
-        this.songUpdateInfo = <number>this.binary.get('songUpdateInfo')
-        this.challengeModeRank = <number>this.binary.get('challengeModeRank')
-        this.money = <number[]>this.binary.get('money')
-        this.unlockFlagOfSpasmodic = <number>this.binary.get('unlockFlagOfSpasmodic')
-        this.unlockFlagOfIgallta = <number>this.binary.get('unlockFlagOfIgallta')
-        this.unlockFlagOfRrharil = <number>this.binary.get('unlockFlagOfRrharil')
-        this.flagOfSongRecordKey = <number>this.binary.get('flagOfSongRecordKey')
-        this.randomVersionUnlocked = <number>this.binary.get('randomVersionUnlocked')
-        this.chapter8UnlockBegin = <boolean>this.binary.get('chapter8UnlockBegin')
-        this.chapter8UnlockSecondPhase = <boolean>this.binary.get('chapter8UnlockSecondPhase')
-        this.chapter8Passed = <boolean>this.binary.get('chapter8Passed')
-        this.chapter8SongUnlocked = <number>this.binary.get('chapter8SongUnlocked')
+        this.isFirstRun = this.binary.getEntry('isFirstRun')!
+        this.legacyChapterFinished = this.binary.getEntry('legacyChapterFinished')!
+        this.alreadyShowCollectionTip = this.binary.getEntry('alreadyShowCollectionTip')!
+        this.alreadyShowAutoUnlockINTip = this.binary.getEntry('alreadyShowAutoUnlockINTip')!
+        this.completed = this.binary.getEntry('completed')!
+        this.songUpdateInfo = this.binary.getEntry('songUpdateInfo')!
+        this.challengeModeRank = this.binary.getEntry('challengeModeRank')!
+        this.money = this.binary.getEntry('money')!
+        this.unlockFlagOfSpasmodic = this.binary.getEntry('unlockFlagOfSpasmodic')!
+        this.unlockFlagOfIgallta = this.binary.getEntry('unlockFlagOfIgallta')!
+        this.unlockFlagOfRrharil = this.binary.getEntry('unlockFlagOfRrharil')!
+        this.flagOfSongRecordKey = this.binary.getEntry('flagOfSongRecordKey')!
+        this.randomVersionUnlocked = this.binary.getEntry('randomVersionUnlocked')!
+        this.chapter8UnlockBegin = this.binary.getEntry('chapter8UnlockBegin')!
+        this.chapter8UnlockSecondPhase = this.binary.getEntry('chapter8UnlockSecondPhase')!
+        this.chapter8Passed = this.binary.getEntry('chapter8Passed')!
+        this.chapter8SongUnlocked = this.binary.getEntry('chapter8SongUnlocked')!
 
     }
 
@@ -146,24 +146,160 @@ export class PlayerGameProgress {
     save(): Buffer {
         this.binary.clearBuffer()
 
-        this.binary.set('isFirstRun', this.isFirstRun )
-        this.binary.set('legacyChapterFinished', this.legacyChapterFinished )
-        this.binary.set('alreadyShowCollectionTip', this.alreadyShowCollectionTip )
-        this.binary.set('alreadyShowAutoUnlockINTip', this.alreadyShowAutoUnlockINTip )
-        this.binary.set('completed', this.completed )
-        this.binary.set('songUpdateInfo', this.songUpdateInfo )
-        this.binary.set('challengeModeRank', this.challengeModeRank )
-        this.binary.set('money', this.money )
-        this.binary.set('unlockFlagOfSpasmodic', this.unlockFlagOfSpasmodic )
-        this.binary.set('unlockFlagOfIgallta', this.unlockFlagOfIgallta )
-        this.binary.set('unlockFlagOfRrharil', this.unlockFlagOfRrharil )
-        this.binary.set('flagOfSongRecordKey', this.flagOfSongRecordKey )
-        this.binary.set('randomVersionUnlocked', this.randomVersionUnlocked )
-        this.binary.set('chapter8UnlockBegin', this.chapter8UnlockBegin )
-        this.binary.set('chapter8UnlockSecondPhase', this.chapter8UnlockSecondPhase )
-        this.binary.set('chapter8Passed', this.chapter8Passed )
-        this.binary.set('chapter8SongUnlocked', this.chapter8SongUnlocked )
+        this.binary.setEntry(this.isFirstRun)
+        this.binary.setEntry(this.legacyChapterFinished)
+        this.binary.setEntry(this.alreadyShowCollectionTip)
+        this.binary.setEntry(this.alreadyShowAutoUnlockINTip)
+        this.binary.setEntry(this.completed)
+        this.binary.setEntry(this.songUpdateInfo)
+        this.binary.setEntry(this.challengeModeRank)
+        this.binary.setEntry(this.money)
+        this.binary.setEntry(this.unlockFlagOfSpasmodic)
+        this.binary.setEntry(this.unlockFlagOfIgallta)
+        this.binary.setEntry(this.unlockFlagOfRrharil)
+        this.binary.setEntry(this.flagOfSongRecordKey)
+        this.binary.setEntry(this.randomVersionUnlocked)
+        this.binary.setEntry(this.chapter8UnlockBegin)
+        this.binary.setEntry(this.chapter8UnlockSecondPhase)
+        this.binary.setEntry(this.chapter8Passed)
+        this.binary.setEntry(this.chapter8SongUnlocked)
         
         return this.binary.saveBuffer()
+    }
+
+    get chapter8SongUnlockedValue(): number {
+        return this.chapter8SongUnlocked.value
+    }
+
+    set chapter8SongUnlockedValue(value: number) {
+        this.chapter8SongUnlocked.value = value
+    }
+
+    get isFirstRunValue(): boolean {
+        return this.isFirstRun.value
+    }
+
+    set isFirstRunValue(value: boolean) {
+        this.isFirstRun.value = value
+    }
+
+    get legacyChapterFinishedValue(): boolean {
+        return this.legacyChapterFinished.value
+    }
+
+    set legacyChapterFinishedValue(value: boolean) {
+        this.legacyChapterFinished.value = value
+    }
+
+    get alreadyShowCollectionTipValue(): boolean {
+        return this.alreadyShowCollectionTip.value
+    }
+
+    set alreadyShowCollectionTipValue(value: boolean) {
+        this.alreadyShowCollectionTip.value = value
+    }
+
+    get alreadyShowAutoUnlockINTipValue(): boolean {
+        return this.alreadyShowAutoUnlockINTip.value
+    }
+
+    set alreadyShowAutoUnlockINTipValue(value: boolean) {
+        this.alreadyShowAutoUnlockINTip.value = value
+    }
+
+    get completedValue(): string {
+        return this.completed.value
+    }
+
+    set completedValue(value: string) {
+        this.completed.value = value
+    }
+
+    get songUpdateInfoValue(): number {
+        return this.songUpdateInfo.value
+    }
+
+    set songUpdateInfoValue(value: number) {
+        this.songUpdateInfo.value = value
+    }
+
+    get challengeModeRankValue(): number {
+        return this.challengeModeRank.value
+    }
+
+    set challengeModeRankValue(value: number) {
+        this.challengeModeRank.value = value
+    }
+
+    get moneyValue(): number[] {
+        return this.money.value
+    }
+
+    set moneyValue(value: number[]) {
+        this.money.value = value
+    }
+
+    get unlockFlagOfSpasmodicValue(): number {
+        return this.unlockFlagOfSpasmodic.value
+    }
+
+    set unlockFlagOfSpasmodicValue(value: number) {
+        this.unlockFlagOfSpasmodic.value = value
+    }
+
+    get unlockFlagOfIgalltaValue(): number {
+        return this.unlockFlagOfIgallta.value
+    }
+
+    set unlockFlagOfIgalltaValue(value: number) {
+        this.unlockFlagOfIgallta.value = value
+    }
+
+    get unlockFlagOfRrharilValue(): number {
+        return this.unlockFlagOfRrharil.value
+    }
+
+    set unlockFlagOfRrharilValue(value: number) {
+        this.unlockFlagOfRrharil.value = value
+    }
+
+    get flagOfSongRecordKeyValue(): number {
+        return this.flagOfSongRecordKey.value
+    }
+
+    set flagOfSongRecordKeyValue(value: number) {
+        this.flagOfSongRecordKey.value = value
+    }
+
+    get randomVersionUnlockedValue(): number {
+        return this.randomVersionUnlocked.value
+    }
+
+    set randomVersionUnlockedValue(value: number) {
+        this.randomVersionUnlocked.value = value
+    }
+
+    get chapter8UnlockBeginValue(): boolean {
+        return this.chapter8UnlockBegin.value
+    }
+
+    set chapter8UnlockBeginValue(value: boolean) {
+        this.chapter8UnlockBegin.value = value
+    }
+
+    get chapter8UnlockSecondPhaseValue(): boolean {
+        return this.chapter8UnlockSecondPhase.value
+    }
+
+    set chapter8UnlockSecondPhaseValue(value: boolean) {
+        this.chapter8UnlockSecondPhase.value = value
+    }
+
+    get chapter8PassedValue(): boolean {
+        return this.chapter8Passed.value
+    }
+
+    set chapter8PassedValue(value: boolean) {
+        this.chapter8Passed.value = value
     }
 }

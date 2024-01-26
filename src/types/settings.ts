@@ -1,19 +1,19 @@
-import { PhigrosBinaryFile } from '../phi-binary'
+import { FieldEntry, PhigrosBinaryFile } from '../phi-binary'
 
 export class PlayerSettings {
     private binary: PhigrosBinaryFile
 
-    public chordSupport: boolean
-    public fcAPIndicator: boolean
-    public enableHitSound: boolean
-    public lowResolutionMode: boolean
-    public deviceName: string
-    public brightness: number
-    public musicVolume: number
-    public effectVolume: number
-    public hitsoundVolume: number
-    public soundOffset: number
-    public noteScale: number
+    public chordSupport: FieldEntry
+    public fcAPIndicator: FieldEntry
+    public enableHitSound: FieldEntry
+    public lowResolutionMode: FieldEntry
+    public deviceName: FieldEntry
+    public brightness: FieldEntry
+    public musicVolume: FieldEntry
+    public effectVolume: FieldEntry
+    public hitsoundVolume: FieldEntry
+    public soundOffset: FieldEntry
+    public noteScale: FieldEntry
 
     /**
      * 
@@ -69,41 +69,123 @@ export class PlayerSettings {
 
         this.binary.loadBuffer(buff)
         
-        /*
-            Since I changed the structure of PhigrosBinaryFile so these need to ported to new version
-            Old version still working but move to new version can improve performance a little bit
-
-            TODO: Migrate to new version (Checkout GameKey)
-        */
-        this.chordSupport = <boolean>this.binary.get("chordSupport")
-        this.fcAPIndicator = <boolean>this.binary.get("fcAPIndicator")
-        this.enableHitSound = <boolean>this.binary.get("enableHitSound")
-        this.lowResolutionMode = <boolean>this.binary.get("lowResolutionMode")
-        this.deviceName = <string>this.binary.get("deviceName")
-        this.brightness = <number>this.binary.get("bright")
-        this.musicVolume = <number>this.binary.get("musicVolume")
-        this.effectVolume = <number>this.binary.get("effectVolume")
-        this.hitsoundVolume = <number>this.binary.get("hsVolume")
-        this.soundOffset = <number>this.binary.get('soundOffset')
-        this.noteScale = <number>this.binary.get("noteScale")
+        this.chordSupport = this.binary.getEntry("chordSupport")!
+        this.fcAPIndicator = this.binary.getEntry("fcAPIndicator")!
+        this.enableHitSound = this.binary.getEntry("enableHitSound")!
+        this.lowResolutionMode = this.binary.getEntry("lowResolutionMode")!
+        this.deviceName = this.binary.getEntry("deviceName")!
+        this.brightness = this.binary.getEntry("bright")!
+        this.musicVolume = this.binary.getEntry("musicVolume")!
+        this.effectVolume = this.binary.getEntry("effectVolume")!
+        this.hitsoundVolume = this.binary.getEntry("hsVolume")!
+        this.soundOffset = this.binary.getEntry('soundOffset')!
+        this.noteScale = this.binary.getEntry("noteScale")!
     }
 
     save(): Buffer {
         this.binary.clearBuffer()
 
-        this.binary.set("chordSupport", this.chordSupport)
-        this.binary.set("fcAPIndicator", this.fcAPIndicator)
-        this.binary.set("enableHitSound", this.enableHitSound)
-        this.binary.set("lowResolutionMode", this.lowResolutionMode)
-        this.binary.set("deviceName", this.deviceName)
-        this.binary.set("bright", this.brightness)
-        this.binary.set("musicVolume", this.musicVolume)
-        this.binary.set("effectVolume", this.effectVolume)
-        this.binary.set("hsVolume", this.hitsoundVolume)
-        this.binary.set('soundOffset', this.soundOffset)
-        this.binary.set("noteScale", this.noteScale)
+        this.binary.setEntry(this.chordSupport)
+        this.binary.setEntry(this.fcAPIndicator)
+        this.binary.setEntry(this.enableHitSound)
+        this.binary.setEntry(this.lowResolutionMode)
+        this.binary.setEntry(this.deviceName)
+        this.binary.setEntry(this.brightness)
+        this.binary.setEntry(this.musicVolume)
+        this.binary.setEntry(this.effectVolume)
+        this.binary.setEntry(this.hitsoundVolume)
+        this.binary.setEntry(this.soundOffset)
+        this.binary.setEntry(this.noteScale)
 
         return this.binary.saveBuffer() 
+    }
+
+    get chordSupportValue(): boolean {
+        return this.chordSupport.value
+    }
+    
+    set chordSupportValue(value: boolean) {
+        this.chordSupport.value = value
+    }
+
+    get fcAPIndicatorValue(): boolean {
+        return this.fcAPIndicator.value
+    }
+
+    set fcAPIndicatorValue(value: boolean) {
+        this.fcAPIndicator.value = value
+    }
+
+    get enableHitSoundValue(): boolean {
+        return this.enableHitSound.value
+    }
+
+    set enableHitSoundValue(value: boolean) {
+        this.enableHitSound.value = value
+    }
+
+    get lowResolutionModeValue(): boolean {
+        return this.lowResolutionMode.value
+    }
+
+    set lowResolutionModeValue(value: boolean) {
+        this.lowResolutionMode.value = value
+    }
+
+    get deviceNameValue(): string {
+        return this.deviceName.value
+    }
+
+    set deviceNameValue(value: string) {
+        this.deviceName.value = value
+    }
+
+    get brightnessValue(): number {
+        return this.brightness.value
+    }
+
+    set brightnessValue(value: number) {
+        this.brightness.value = value
+    }
+
+    get musicVolumeValue(): number {
+        return this.musicVolume.value
+    }
+
+    set musicVolumeValue(value: number) {
+        this.musicVolume.value = value
+    }
+
+    get effectVolumeValue(): number {
+        return this.effectVolume.value
+    }
+
+    set effectVolumeValue(value: number) {
+        this.effectVolume.value = value
+    }
+
+    get hitsoundVolumeValue(): number {
+        return this.hitsoundVolume.value
+    }
+
+    set hitsoundVolumeValue(value: number) {
+        this.hitsoundVolume.value = value
+    }
+
+    get soundOffsetValue(): number {
+        return this.soundOffset.value
+    }
+
+    set soundOffsetValue(value: number) {
+        this.soundOffset.value = value
+    }
+
+    get noteScaleValue(): number {
+        return this.noteScale.value
+    }
+
+    set noteScaleValue(value: number) {
+        this.noteScale.value = value
     }
 
 }

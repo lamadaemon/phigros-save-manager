@@ -1,6 +1,6 @@
 {
   "name": "phigros-save-manager",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A simple library for handle phigros saves",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
