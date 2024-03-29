@@ -95,11 +95,11 @@ program.command("get")
 
 program.command("decrypt")
     .argument("<SessionToken>", "Your session token")
-    .argument("[SaveFile]", "The save file to restore")
+    .argument("[SaveFile]", "Save destination file")
     .option("-o, --output <file>", "Output file")
     .option("-q, --quiet", "Quiet mode")
     .description("Decrypt a encrypted save file")
-    .action(async (option, token, file) => {
+    .action(async (token, file, option) => {
         if (option.quiet) {
             console['log'] = () => void 0
         }
