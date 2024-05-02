@@ -10,7 +10,7 @@ A simple libaray for modify *Phigros* cloud save data.
 
 ## Features
 
-- Load binary format save files or cloud. Supported version: 
+- Load binary format save files from local or cloud. Supported version: 
     + user: `1` (Latest)
     + settings: `1` (Latest)
     + gameRecord: `1` (Latest)
@@ -18,8 +18,8 @@ A simple libaray for modify *Phigros* cloud save data.
     + gameProgress: `3` (Latest)
 - Easly modify save from code.
 - (Re)Create binary save files from code.
-- Download save from cloud.
-- Upload modified save to cloud.
+- Download save file from cloud.
+- Upload modified save file to cloud.
 - Convient shortcuts
     + re8
         - re8: Reset the chapter 8
@@ -28,7 +28,7 @@ A simple libaray for modify *Phigros* cloud save data.
 
 ## CLI Usage
 
-phigros-save-manager provides a useful CLI to easily reset chapter 8, backup your cloud save, and other utilities.
+phigros-save-manager provides a useful CLI to easily reset chapter 8, backup your cloud save, and other debug utilities.
 
 You can use the following command to get detialed subcommand explaination.
 
