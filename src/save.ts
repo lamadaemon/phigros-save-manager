@@ -12,7 +12,7 @@ import { LevelRecord, PlayerGameRecord } from "./types/record";
 import { PhigrosBinaryParseError } from "./phi-binary";
 import { GameSaveSummary } from "./types/summary";
 import { FilePartInfo, S2CRequestCreateFileToken, S2CRequestCreateUpload, S2CRequestUploadPart } from "./types/requests";
-import { getDifficaulty } from "./difficaulties";
+import { getDifficulty } from "./difficulties";
 
 const supportedVersion: { [key: string]: number } = {
     'user': 1,
@@ -147,7 +147,7 @@ export class PhigrosSave {
                     continue
                 }
 
-                const songRks = record.rks(getDifficaulty(i.songName.substring(0, i.songName.length - 2), j))
+                const songRks = record.rks(getDifficulty(i.songName.substring(0, i.songName.length - 2), j))
                 allRks.push(songRks)
 
                 if (record.accuracy === 100 && songRks > phiRks) {
@@ -163,7 +163,7 @@ export class PhigrosSave {
         for(const i of this.gameRecord.records) {
             for (let j = 0; j < i.levelRecords.length; j++) {
                 const record = i.levelRecords[j]
-                const diff = getDifficaulty(i.songName, j)
+                const diff = getDifficulty(i.songName, j)
                 const songRks = record.rks(diff)
 
                 allRks.push({...record, name: i.songName, diff: j, rks: songRks})

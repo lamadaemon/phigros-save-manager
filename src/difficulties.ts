@@ -229,7 +229,7 @@ export const diffIndexMapping = {
     'at': 3
 }
 
-export function getDifficaulty(name: string, diff: ('ez' | 'hd' | 'in' | 'at') | number): number {
+export function getDifficulty(name: string, diff: ('ez' | 'hd' | 'in' | 'at') | number): number {
     if (typeof diff === 'number') {
         return diffTable[name][diff]
     }

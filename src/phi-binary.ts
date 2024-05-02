@@ -86,7 +86,7 @@ export class PhigrosBinaryFile {
                 return this.readShort()
 
             case 'varshort':
-                return this.readVaribleShort()
+                return this.readVariableShort()
 
             case 'arr':
                 let len = 0
@@ -96,13 +96,13 @@ export class PhigrosBinaryFile {
                     len = definition.len
                 } else {
                     if (definition.len === 'varshort') {
-                        len = this.readVaribleShort()
+                        len = this.readVariableShort()
                     } else if (definition.len === 'short') {
                         len = this.readShort()
                     } else if ('skip' in definition.len) {
                         if (typeof definition.len.expectedLen === 'string') {
                             if (definition.len.expectedLen === 'varshort') {
-                                len = this.readVaribleShort()
+                                len = this.readVariableShort()
                             } else if (definition.len.expectedLen === 'short') {
                                 len = this.readShort()
                             }
@@ -373,7 +373,7 @@ export class PhigrosBinaryFile {
         this.cursor += 4
     }
 
-    public readVaribleShort() {
+    public readVariableShort() {
         this.resetBitCursor()
 
         if (this.checkLen(2)) {
@@ -417,7 +417,7 @@ export class PhigrosBinaryFile {
     public readString() {
         this.resetBitCursor()
 
-        const len = this.readVaribleShort()
+        const len = this.readVariableShort()
         if (len === 0) {
             return ''
         }
