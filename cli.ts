@@ -131,7 +131,7 @@ program.command("allphi")
                     continue
                 }
                 j.accuracy = 100
-                j.score = 100000000
+                j.score = 1000000
             }
         }
 
