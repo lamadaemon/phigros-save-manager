@@ -12,7 +12,7 @@ export interface PhigrosBinaryRegularEntryStructure {
     field?: string,
 }
 
-export interface ConditionalField {
+export interface ConditionalLength {
     expectedLen: number | 'varshort' | 'short'
 
     skip(f: PhigrosBinaryFile, ctx: { op: 'r' | 'w', ctx: any, curr: any, prev?: any }): boolean 
@@ -21,14 +21,15 @@ export interface ConditionalField {
 export interface PhigrosBinaryArrayStructure {
     type: 'arr',
     field?: string,
-    len: number | 'varshort' | 'short' | ConditionalField,
+    len: number | 'varshort' | 'short' | ConditionalLength,
     definition: PhigrosBinaryStructure
 }
 
 export interface PhigrosBinaryObjectStructure  {
     type: 'object',
     field?: string,
-    base?: any
+    base?: any,
+    length?: number | 'byte',
     definition: (PhigrosBinaryStructure & NamedField)[], // TODO: Add conditional field
 }
 
@@ -138,9 +139,27 @@ export class PhigrosBinaryFile {
             case 'boolean':
                 return this.readBoolean()
             case 'object':
-                const obj: any = definition.base ?? {}
+                const obj: any = { ...definition.base }
+                const start = this.cursor
+
+                let expectedLen: number | null = null
+                if (definition.length) {
+                    if (typeof definition.length === 'number') {
+                        expectedLen = definition.length
+                    } else if (definition.length === 'byte') {
+                        expectedLen = this.readByte()
+                    } else {
+                        throw new PhigrosBinaryParseError("The type for dynamic length dosen't supported!")
+                    }
+                }
+
                 for (const i of definition.definition) {
                     obj[i.field] = this.readFromDefinition(i, { op: 'r', ctx: obj, curr: i, prev: ctx})
+                }
+
+                const usedSpace = this.cursor - start - 1
+                if (expectedLen && usedSpace !== definition.length) {
+                    this.shiftCursor(expectedLen - usedSpace)
                 }
 
                 return obj
@@ -262,9 +281,22 @@ export class PhigrosBinaryFile {
                 break;
 
             case 'object':
+                const lengthLocation = this.cursor
+                if (definition.length) {
+                    this.writeByte(0) // Placeholder
+                }
+            
                 for (const i of definition.definition) {
                     this.writeFromDefinition(i, value[i.field])
                 }
+
+                const endLocation = this.cursor
+                if (definition.length) {
+                    this.shiftCursorTo(lengthLocation)
+                    this.writeByte(endLocation - lengthLocation - 1)
+                    this.shiftCursorTo(endLocation)
+                }
+
                 break;
             default:
                 throw new Error("Impossible Code Reached!")
@@ -435,6 +467,18 @@ export class PhigrosBinaryFile {
         this.buff.write(str, this.cursor, 'utf8')
 
         this.cursor += byteLen
+    }
+
+    public shiftCursor(amount: number) {
+        this.cursor += amount
+    }
+
+    public shiftCursorTo(location: number) {
+        if (location < 0) {
+            throw new PhigrosBinaryParseError("Index exceeds!")
+        }
+
+        this.cursor = location
     }
 
     private checkLen(len: number): boolean {

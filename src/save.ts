@@ -140,8 +140,8 @@ export class PhigrosSave {
         let phiRks = 0
         const allRks = []
         for(const i of this.gameRecord.records) {
-            for (let j = 0; j < i.levelRecords.length; j++) {
-                const record = i.levelRecords[j]
+            for (let j = 0; j < i.records.levelRecords.length; j++) {
+                const record = i.records.levelRecords[j]
 
                 if (!record) {
                     continue
@@ -161,8 +161,8 @@ export class PhigrosSave {
     public b19(): ((Omit<LevelRecord, 'rks'>) & { name: string, diff: number, rks: number })[] {
         const allRks = []
         for(const i of this.gameRecord.records) {
-            for (let j = 0; j < i.levelRecords.length; j++) {
-                const record = i.levelRecords[j]
+            for (let j = 0; j < i.records.levelRecords.length; j++) {
+                const record = i.records.levelRecords[j]
                 const diff = getDifficulty(i.songName, j)
                 const songRks = record.rks(diff)
 

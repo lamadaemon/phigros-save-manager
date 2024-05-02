@@ -22,49 +22,52 @@ export class PlayerGameRecord {
                             type: 'string',
                             field: 'songName'
                         },
-                        { // Begin Value
-                            type: 'byte',
-                            field: '_unknownValue1'
-                        },
                         {
-                            type: 'byte',
-                            field: 'levelExsistanceFlag'
-                        },
-                        {
-                            type: 'byte',
-                            field: 'fcFlag'
-                        }, 
-                        {
-                            type: 'arr',
-                            field: 'levelRecords',
-                            len: {
-                                expectedLen: 4,
-                                skip: (_f, ctx) => {
-                                    return (ctx.prev.ctx.levelExsistanceFlag & (1 << ctx.curr)) === 0
-                                }
-                            },
-                            definition: {
-                                type: 'object',
-                                base: {
-                                    rks(diff: number) {
-                                        if (this.accuracy < 70) {
-                                            return 0
-                                        }     
-
-                                        return diff * (((this.accuracy - 55) / 45) ** 2)
-                                    }
+                            type: 'object',
+                            field: 'records',
+                            length: 'byte',
+                            definition: [
+                                {
+                                    type: 'byte',
+                                    field: 'levelExsistanceFlag'
                                 },
-                                definition: [
-                                    {
-                                        type: 'int',
-                                        field: 'score'
+                                {
+                                    type: 'byte',
+                                    field: 'fcFlag'
+                                }, 
+                                {
+                                    type: 'arr',
+                                    field: 'levelRecords',
+                                    len: {
+                                        expectedLen: 4,
+                                        skip: (_f, ctx) => {
+                                            return (ctx.prev.ctx.levelExsistanceFlag & (1 << ctx.curr)) === 0
+                                        }
                                     },
-                                    {
-                                        type: 'float',
-                                        field: 'accuracy'
+                                    definition: {
+                                        type: 'object',
+                                        base: {
+                                            rks(diff: number) {
+                                                if (this.accuracy < 70) {
+                                                    return 0
+                                                }     
+        
+                                                return diff * (((this.accuracy - 55) / 45) ** 2)
+                                            }
+                                        },
+                                        definition: [
+                                            {
+                                                type: 'int',
+                                                field: 'score'
+                                            },
+                                            {
+                                                type: 'float',
+                                                field: 'accuracy'
+                                            }
+                                        ]
                                     }
-                                ]
-                            }
+                                }
+                            ]
                         }
                     ]
                 }
@@ -75,11 +78,11 @@ export class PlayerGameRecord {
         this._records = this.binary.getEntry('records')!
     }
 
-    get records(): PlayerRecord[] {
+    get records(): SongRecord[] {
         return this._records.value
     }
     
-    set records(records: PlayerRecord[]) {
+    set records(records: SongRecord[]) {
         this._records.value = records
     }
 
@@ -97,10 +100,13 @@ export type LevelRecord = {
     rks: (diff: number) => number
 }
 
-export type PlayerRecord = {
-    songName: string,
-    _unknownValue1: number, 
+export type SongRecordBody = {
     levelExsistanceFlag: number,
     fcFlag: number,
-    levelRecords: LevelRecord[],
+    levelRecords: LevelRecord[]
+}
+
+export type SongRecord = {
+    songName: string,
+    records: SongRecordBody
 }

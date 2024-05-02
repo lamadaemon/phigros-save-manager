@@ -4,6 +4,7 @@ import { program } from "commander";
 import { PhigrosSaveManager } from ".";
 import fs from 'fs'
 import AdmZip from "adm-zip";
+import { PhigrosSave } from "./src/save";
 
 program
     .name("Phigros save manager CLI")
@@ -82,14 +83,20 @@ program.command("refresh")
 
 program.command("get")
     .argument("<SessionToken>", "Your session token")
+    .option("-f, --file <file>", "Use save file instead of fetching from cloud.")
     .description("Get your personal information")
-    .action(async (token) => {
+    .action(async (token, option) => {
         console.log("Fetching profile")
 
-        const save = await PhigrosSaveManager.loadCloudSave(token)
-        console.log(`Last update at: ${save.profile.updatedAt}`)
-        console.log(`Your ID is    : ${save.profile.user.objectId}`)
-        console.log(`RKS           : ${save.rks()}`)
+        let save: PhigrosSave | null = null
+        if (option.file) {
+            save = await PhigrosSaveManager.loadLocalSave(token, option.file)
+        } else {
+            save = await PhigrosSaveManager.loadCloudSave(token)
+        }
+        console.log(`Last update at: ${save!.profile.updatedAt}`)
+        console.log(`Your ID is    : ${save!.profile.user.objectId}`)
+        console.log(`RKS           : ${save!.rks()}`)
         
     })
 
@@ -126,7 +133,7 @@ program.command("allphi")
     .action(async (token) => {
         const save = await PhigrosSaveManager.loadCloudSave(token)
         for (const i of save.gameRecord.records) {
-            for (const j of i.levelRecords) {
+            for (const j of i.records.levelRecords) {
                 if (!j) {
                     continue
                 }
