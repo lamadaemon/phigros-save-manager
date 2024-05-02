@@ -38,7 +38,7 @@ program.command("rere8")
     .action(async (token) => {
         console.log("The script is now loading cloud save and trying to unlock chapter 8...")
 
-        await (await PhigrosSaveManager.loadCloudSave(token)).partialRe8().uploadSave()
+        await (await PhigrosSaveManager.loadCloudSave(token)).rere8().uploadSave()
 
         console.log("OK, chapter 8 is now unlocked")
     })
