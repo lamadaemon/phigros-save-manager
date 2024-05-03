@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
 import { program } from "commander";
-import { PhigrosSaveManager } from ".";
+import { PhigrosSaveManager, PhigrosSave } from ".";
 import fs from 'fs'
 import AdmZip from "adm-zip";
-import { PhigrosSave } from "./src/save";
 
 program
     .name("Phigros save manager CLI")

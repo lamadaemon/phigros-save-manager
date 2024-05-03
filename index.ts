@@ -7,6 +7,7 @@ export * from './src/types/settings'
 export * from './src/types/summary'
 export * from './src/types/user'
 export * from './src/phi-binary'
+export * from "./src/save"
 
 export namespace PhigrosSaveManager {
     export async function loadCloudSave(token: string) {
