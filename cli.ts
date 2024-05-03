@@ -89,7 +89,7 @@ program.command("get")
 
         let save: PhigrosSave | null = null
         if (option.file) {
-            save = await PhigrosSaveManager.loadLocalSave(token, option.file)
+            save = await PhigrosSaveManager.loadLocalSave(token, fs.readFileSync(option.file)) // Why it was worked???
         } else {
             save = await PhigrosSaveManager.loadCloudSave(token)
         }
