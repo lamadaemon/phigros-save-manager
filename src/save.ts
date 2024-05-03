@@ -147,7 +147,7 @@ export class PhigrosSave {
                     continue
                 }
 
-                const songRks = record.rks(getDifficulty(i.songName.substring(0, i.songName.length - 2), j))
+                const songRks = record.rks(getDifficulty(i.songName, j))
                 allRks.push(songRks)
 
                 if (record.accuracy === 100 && songRks > phiRks) {
@@ -163,6 +163,10 @@ export class PhigrosSave {
         for(const i of this.gameRecord.records) {
             for (let j = 0; j < i.records.levelRecords.length; j++) {
                 const record = i.records.levelRecords[j]
+                if (record == null) {
+                    continue    
+                }
+
                 const diff = getDifficulty(i.songName, j)
                 const songRks = record.rks(diff)
 

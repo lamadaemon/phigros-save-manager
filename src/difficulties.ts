@@ -230,6 +230,10 @@ export const diffIndexMapping = {
 }
 
 export function getDifficulty(name: string, diff: ('ez' | 'hd' | 'in' | 'at') | number): number {
+    if (name.endsWith(".0")) {
+        name = name.slice(0, -2)
+    }
+
     if (typeof diff === 'number') {
         return diffTable[name][diff]
     }
