@@ -462,7 +462,7 @@ export class PhigrosBinaryFile {
     public writeString(str: string) {
         this.resetBitCursor()
 
-        const byteLen = new Buffer(str).length
+        const byteLen = Buffer.from(str, 'utf8').length
         this.writeVaribleShort(byteLen)
         this.buff.write(str, this.cursor, 'utf8')
 
