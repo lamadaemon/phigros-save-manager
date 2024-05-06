@@ -1,11 +1,15 @@
 import { PhigrosCloudServiceAPI } from "./src/cloud/api"
 import { PhigrosSave } from "./src/save"
 
+export * from './src/cloud/summary'
+export * from './src/cloud/profile'
+export * from './src/cloud/requests'
+export * from './src/cloud/api'
+
 export * from './src/types/key'
 export * from './src/types/progress'
 export * from './src/types/record'
 export * from './src/types/settings'
-export * from './src/cloud/summary'
 export * from './src/types/user'
 export * from './src/phi-binary'
 export * from "./src/save"
