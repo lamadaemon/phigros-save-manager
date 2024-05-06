@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 import { program } from "commander";
-import { PhigrosSaveManager, PhigrosSave } from ".";
+import { PhigrosSaveManager } from ".";
 import fs from 'fs'
 import AdmZip from "adm-zip";
+import { PhigrosCloudServiceAPI } from "./src/cloud/api";
 
 program
     .name("Phigros save manager CLI")
@@ -15,8 +16,10 @@ program.command("re8")
     .description("Reset chapter 8")
     .action(async (token) => {
         console.log("The script is now Loading cloud save and trying to reset chapter 8...")
-
-        await (await PhigrosSaveManager.loadCloudSave(token)).re8().uploadSave()
+        const service = await new PhigrosCloudServiceAPI(token).selectProfile(() => true)
+        const newSave = (await service.getPlayerSave()).re8().createSave()
+        
+        await service.uploadSave(newSave)
 
         console.log("OK, chapter 8 is now reset")
     })  
@@ -27,7 +30,10 @@ program.command("pr8")
     .action(async (token) => {
         console.log("The script is now Loading cloud save and trying to reset half of chapter 8...")
 
-        await (await PhigrosSaveManager.loadCloudSave(token)).partialRe8().uploadSave()
+        const service = await new PhigrosCloudServiceAPI(token).selectProfile(() => true)
+        const newSave = (await service.getPlayerSave()).partialRe8().createSave()
+        
+        await service.uploadSave(newSave)
 
         console.log("OK, half of chapter 8 is now unlocked")
     })
@@ -38,7 +44,10 @@ program.command("rere8")
     .action(async (token) => {
         console.log("The script is now loading cloud save and trying to unlock chapter 8...")
 
-        await (await PhigrosSaveManager.loadCloudSave(token)).rere8().uploadSave()
+        const service = await new PhigrosCloudServiceAPI(token).selectProfile(() => true)
+        const newSave = (await service.getPlayerSave()).rere8().createSave()
+        
+        await service.uploadSave(newSave)
 
         console.log("OK, chapter 8 is now unlocked")
     })
@@ -48,11 +57,12 @@ program.command("backup")
     .description("Backup your save file")
     .action(async (token) => {
         console.log("The script is now creating a backup...")
+        const service = await new PhigrosCloudServiceAPI(token).selectProfile(() => true)
+        const save = (await service.getPlayerSave())
 
-        const save = await PhigrosSaveManager.loadCloudSave(token)
-        await save.backup(`${save.profile.name}-${Date.now()}.save`)
+        fs.writeFileSync(`${service.profile!.name}-${Date.now()}.save`, save.createSave())
 
-        console.log(`OK, a backup is created and saved to ${save.profile.name}-${Date.now()}.save`)
+        console.log(`OK, a backup is created and saved to ${service.profile!.name}-${Date.now()}.save`)
     })
 
 program.command("restore")
@@ -62,8 +72,10 @@ program.command("restore")
     .action(async (token, file) => {
         console.log("The script is now restoring a backup...")
 
-        const save = await PhigrosSaveManager.loadLocalSave(token, fs.readFileSync(file))
-        await save.uploadSave()
+        const save = await PhigrosSaveManager.loadLocalSave(fs.readFileSync(file))
+        const service = await new PhigrosCloudServiceAPI(token).selectProfile(() => true)
+
+        await service.uploadSave(save.createSave())
 
         console.log(`OK, the backup is restored`)
     })    
@@ -74,28 +86,43 @@ program.command("refresh")
     .action(async (token) => {
         console.log("Refreshing session token...")
 
-        const save = await PhigrosSaveManager.refreshToken(token)
+        const newToken = await PhigrosSaveManager.refreshToken(token)
 
-        console.log(`OK, the token ${token} is now no longer valid. Your new token is: ${save}`)
+        console.log(`OK, the token ${token} is now no longer valid. Your new token is: ${newToken}`)
     })
 
 
 program.command("get")
-    .argument("<SessionToken>", "Your session token")
+    .argument("<SessionToken|File>", "Your session token or file name if with -f option")
     .option("-f, --file <file>", "Use save file instead of fetching from cloud.")
     .description("Get your personal information")
     .action(async (token, option) => {
-        console.log("Fetching profile")
+        let update: string = 'N/A'
+        let id: string = 'N/A'
+        let rks: string = 'N/A'
 
-        let save: PhigrosSave | null = null
         if (option.file) {
-            save = await PhigrosSaveManager.loadLocalSave(token, fs.readFileSync(option.file)) // Why it was worked???
+            if (fs.existsSync(option.file)) {
+                console.error("File not found!")
+                process.exit(1)
+            }
+
+            const local = PhigrosSaveManager.loadLocalSave(fs.readFileSync(option.file))
+
+            rks = '' + local.rks()
+            update = fs.fstatSync(option.file).mtime.toISOString()
         } else {
-            save = await PhigrosSaveManager.loadCloudSave(token)
+            const service = await new PhigrosCloudServiceAPI(token).selectProfile(() => true)
+            const save = (await service.getPlayerSave())
+
+            rks = '' + save.rks()
+            update = service.profile!.updatedAt
+            id = service.profile!.objectId
         }
-        console.log(`Last update at: ${save!.profile.updatedAt}`)
-        console.log(`Your ID is    : ${save!.profile.user.objectId}`)
-        console.log(`RKS           : ${save!.rks()}`)
+         
+        console.log(`Last update at: ${update}`)
+        console.log(`Your ID is    : ${id}`)
+        console.log(`RKS           : ${rks}`)
         
     })
 
@@ -130,7 +157,9 @@ program.command("decrypt")
 program.command("allphi")
     .argument("<SessionToken>", "Your session token")
     .action(async (token) => {
-        const save = await PhigrosSaveManager.loadCloudSave(token)
+        const service = await new PhigrosCloudServiceAPI(token).selectProfile(() => true)
+        const save = (await service.getPlayerSave())
+        
         for (const i of save.gameRecord.records) {
             for (const j of i.records.levelRecords) {
                 if (!j) {
@@ -141,8 +170,7 @@ program.command("allphi")
             }
         }
 
-        await save.uploadSave()
-
+        await service.uploadSave(save.createSave())
     })
 
 

@@ -1,40 +1,37 @@
+import { PhigrosCloudServiceAPI } from "./src/cloud/api"
 import { PhigrosSave } from "./src/save"
 
 export * from './src/types/key'
 export * from './src/types/progress'
 export * from './src/types/record'
 export * from './src/types/settings'
-export * from './src/types/summary'
+export * from './src/cloud/summary'
 export * from './src/types/user'
 export * from './src/phi-binary'
 export * from "./src/save"
 
 export namespace PhigrosSaveManager {
     export async function loadCloudSave(token: string) {
-        const saveManager = new PhigrosSave(token)
-        await saveManager.init()
+        const service = await new PhigrosCloudServiceAPI(token).selectProfile(() => true)
         
-        return saveManager
+        return await service.getPlayerSave()
     }
 
-    export async function loadLocalSave(token: string, save: Buffer) {
-        const saveManager = new PhigrosSave(token)
-        await saveManager.loadSave(save)
-
-        return saveManager
+    export function loadLocalSave(save: Buffer): PhigrosSave {
+        return new PhigrosSave(save)
     }
 
-    export async function downloadSave(token: string) {
-        const saveManager = new PhigrosSave(token)
-        
-        return await saveManager.downloadSave()
+    export async function downloadSave(token: string): Promise<Buffer> {
+        const service = await new PhigrosCloudServiceAPI(token)
+        .selectProfile(() => true)
+
+        return await service.getPlayerSaveBytes()
     }
 
     export async function refreshToken(token: string) {
-        const saveManager = new PhigrosSave(token)
-        await saveManager.init()
+        const service = await new PhigrosCloudServiceAPI(token).selectProfile(() => true)
 
-        return await saveManager.refreshToken()
+        return await service.refreshToken()
     }
 
     export async function decrypt(buff: Buffer, type?: string) {
