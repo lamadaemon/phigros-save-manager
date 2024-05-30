@@ -115,12 +115,6 @@ export class PlayerGameProgress {
 
         this.binary.loadBuffer(buff)
         
-        /*
-            Since I changed the structure of PhigrosBinaryFile so these need to ported to new version
-            Old version still working but move to new version can improve performance a little bit
-
-            TODO: Migrate to new version (Checkout GameKey)
-        */
         this._isFirstRun = this.binary.getEntry('isFirstRun')!
         this._legacyChapterFinished = this.binary.getEntry('legacyChapterFinished')!
         this._alreadyShowCollectionTip = this.binary.getEntry('alreadyShowCollectionTip')!
@@ -140,8 +134,6 @@ export class PlayerGameProgress {
         this._chapter8SongUnlocked = this.binary.getEntry('chapter8SongUnlocked')!
 
     }
-
-    
 
     save(): Buffer {
         this.binary.clearBuffer()
@@ -302,4 +294,21 @@ export class PlayerGameProgress {
     set chapter8SongUnlocked(newVal: number) {
         this._chapter8SongUnlocked.value = newVal
     }
+
+    public isChapter8SongUnlocked(songIndex: Chapter8Song): boolean {
+        return (this.chapter8SongUnlocked & (1 << songIndex)) > 0
+    }
+
+    public editMoney(expr: string) {
+        
+    }
+}
+
+export enum Chapter8Song {
+    CraveWave,
+    TheChariotRevival,
+    Retribution,
+    Luminescence,
+    DistortedFate,
+    Destruction321
 }
