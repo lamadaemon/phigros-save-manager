@@ -51,6 +51,10 @@ export class PhigrosCloudServiceAPI {
 
         return this
     }
+
+    public async selectFirstProfile() {
+        return this.selectProfile(it => true)
+    }
     
     /**
      * Upload the save content to remote
