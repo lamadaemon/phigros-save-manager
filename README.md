@@ -36,11 +36,6 @@ You can use the following command to get detialed subcommand explaination.
 phigrous-save-manager
 ```
 
-## Future plans
-
-- [ ] Add test
-- [ ] API Documentations
-
 ## Examples
 
 ```typescript
@@ -85,3 +80,4 @@ fs.writeFileSync("/path/to/gameProgress", PhigrosSaveManager.encrypt(binary.save
 
 ```
 
+More examples available in examples folder.
