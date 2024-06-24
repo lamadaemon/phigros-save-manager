@@ -71,7 +71,7 @@ export class PhigrosBinaryFile {
 
     }
 
-    public loadBuffer(buff?: Buffer) {
+    public loadBuffer(buff: Buffer) {
         this.buff = buff ?? this.buff
 
         for (const definition of this.fieldDefinitions) {
