@@ -10,7 +10,7 @@ export class GameSaveSummary {
     private _avatar: FieldEntry
     private _levelSummary: FieldEntry
     
-    constructor(buff?: Buffer) {
+    constructor(buff: Buffer) {
         this.binary = new PhigrosBinaryFile([
             {
                 type: 'byte',
