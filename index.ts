@@ -38,11 +38,11 @@ export namespace PhigrosSaveManager {
         return await service.refreshToken()
     }
 
-    export async function decrypt(buff: Buffer, type?: string) {
+    export function decrypt(buff: Buffer, type?: string) {
         return PhigrosSave.decryptProfile(buff, type)
     }
 
-    export async function encrypt(buff: Buffer, type: string) {
+    export function encrypt(buff: Buffer, type: string) {
         return PhigrosSave.encryptProfile(buff, type)
     }
 }
