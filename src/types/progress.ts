@@ -299,8 +299,47 @@ export class PlayerGameProgress {
         return (this.chapter8SongUnlocked & (1 << songIndex)) > 0
     }
 
+    public setMoney(amount: number, at: number) {
+        this.money[at] = amount
+    }
+
+    // TODO test code
     public editMoney(expr: string) {
-        
+        let amount = 0
+        for (let i = 0; i < this.money.length; i++) {
+            let curr = parseInt(expr[i])
+            if (isNaN(curr)) {
+                switch (expr[i]) {
+                    case 'k':
+                    case 'K':
+                        this.setMoney(amount, 0)
+                        break
+                    case 'm':
+                    case 'M':
+                        this.setMoney(amount, 1)
+                        break
+                    case 'g':
+                    case 'G':
+                        this.setMoney(amount, 2)
+                        break
+                    case 't':
+                    case 'T':
+                        this.setMoney(amount, 3)
+                        break
+                    case 'p':
+                    case 'P':
+                        this.setMoney(amount, 4)
+                        break
+                }
+
+                if (expr[i + 1] === 'B' || expr[i + 1] === 'b') {
+                    i ++
+                }
+            } else {
+                amount *= 10
+                amount += curr
+            }
+        }
     }
 }
 
