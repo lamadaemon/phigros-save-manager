@@ -127,25 +127,34 @@ program.command("get")
     })
 
 program.command("decrypt")
-    .argument("<SessionToken>", "Your session token")
     .argument("[SaveFile]", "Save destination file")
+    .option("-d, --download <SessionToken>", "Download save file")
     .option("-o, --output <file>", "Output file")
     .option("-q, --quiet", "Quiet mode")
     .description("Decrypt a encrypted save file")
-    .action(async (token, file, option) => {
+    .action(async (file, option) => {
         if (option.quiet) {
             console['log'] = () => void 0
         }
 
         console.log("Now trying to decrypt save...")
 
-        const save = file ? fs.readFileSync(file) : await PhigrosSaveManager.downloadSave(token)
+        let save
+        if (option.download) {
+            save = await PhigrosSaveManager.downloadSave(option.download)
+        } else if (file) {
+            save = fs.readFileSync(file)
+        } else {
+            console.error("No save file specified!")
+            process.exit(1)
+        }
+
         const zip = new AdmZip(save)
         const decryptedZip = new AdmZip()
 
         for (const entry of zip.getEntries()) {
             const buff = entry.getData()
-            const decrypted = await PhigrosSaveManager.decrypt(buff)
+            const decrypted = PhigrosSaveManager.decrypt(buff)
             
             decryptedZip.addFile(entry.entryName, decrypted)
         }
