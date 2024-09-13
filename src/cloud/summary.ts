@@ -54,8 +54,7 @@ export class GameSaveSummary {
                     ]
                 }
             }
-        ])
-        this.binary.loadBuffer(buff)
+        ], buff, { encryption: false })
 
         this._saveVersion = this.binary.getEntry('saveVersion')!
         this._challengeModeRank = this.binary.getEntry('challengeModeRank')!

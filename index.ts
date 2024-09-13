@@ -42,7 +42,8 @@ export namespace PhigrosSaveManager {
         return PhigrosSave.decryptProfile(buff, type)
     }
 
-    export function encrypt(buff: Buffer, type: string) {
+    export function encrypt(buff: Buffer, type: string | number) {
         return PhigrosSave.encryptProfile(buff, type)
     }
 }
+

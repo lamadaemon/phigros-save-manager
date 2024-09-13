@@ -1,6 +1,7 @@
 import { FieldEntry, PhigrosBinaryFile } from "../phi-binary"
 
 export class PlayerInformation {
+    static readonly VERSION = 1
     private binary: PhigrosBinaryFile
     
     public _showPlayerID: FieldEntry
@@ -30,10 +31,12 @@ export class PlayerInformation {
                 type: 'string',
                 field: 'bg'
             },
-        ])
+        ], buff)
 
-        this.binary.loadBuffer(buff)
-        
+        if (this.binary.fileVersion !== PlayerInformation.VERSION) {
+            throw new Error(`Unsupported version of user ! Expected: ${PlayerInformation.VERSION}, got: ${this.binary.fileVersion}`)
+        }
+
         this._showPlayerID = this.binary.getEntry('showPlayerID')!
         this._description = this.binary.getEntry('description')!
         this._avatar = this.binary.getEntry('avatar')!

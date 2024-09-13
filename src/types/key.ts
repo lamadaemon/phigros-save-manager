@@ -6,6 +6,7 @@ import { FieldEntry, PhigrosBinaryFile } from "../phi-binary"
  * 
  */
 export class PlayerGameKey {
+    static readonly VERSION = 2
     private binary: PhigrosBinaryFile
     
     private _keys: FieldEntry
@@ -57,9 +58,11 @@ export class PlayerGameKey {
                 type: 'boolean',
                 field: 'camelliaReadKey'
             }
-        ])
+        ], buff)
 
-        this.binary.loadBuffer(buff)
+        if (this.binary.fileVersion !== PlayerGameKey.VERSION) { 
+            throw new Error(`Unsupported version of gameKey! Expected: ${PlayerGameKey.VERSION}, got: ${this.binary.fileVersion}`)
+        }
 
         this._keys = this.binary.getEntry('keys')!
         this._lanotaReadKeys = this.binary.getEntry('lanotaReadKeys')!

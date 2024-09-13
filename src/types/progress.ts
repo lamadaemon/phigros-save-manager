@@ -1,6 +1,7 @@
 import { FieldEntry, PhigrosBinaryFile } from "../phi-binary"
 
 export class PlayerGameProgress {
+    static readonly VERSION = 3
     private binary: PhigrosBinaryFile
 
     _isFirstRun: FieldEntry
@@ -111,10 +112,12 @@ export class PlayerGameProgress {
                 type: 'byte',
                 field: 'chapter8SongUnlocked'
             },
-        ])
+        ], buff)
 
-        this.binary.loadBuffer(buff)
-        
+        if (this.binary.fileVersion !== PlayerGameProgress.VERSION) {
+            throw new Error(`Unsupported version of gameProgress! Expected: ${PlayerGameProgress.VERSION}, got: ${this.binary.fileVersion}`)
+        }
+
         this._isFirstRun = this.binary.getEntry('isFirstRun')!
         this._legacyChapterFinished = this.binary.getEntry('legacyChapterFinished')!
         this._alreadyShowCollectionTip = this.binary.getEntry('alreadyShowCollectionTip')!

@@ -35,7 +35,7 @@ export class PhigrosSave {
                 throw new Error(`Failed to parse game profile! This library is outdated! There is no support of file: ${i.name} `)
             }
 
-            const data = PhigrosSave.decryptProfile(saveLocal.readFile(i)!, i.entryName);
+            const data = saveLocal.readFile(i)!
             switch(i.name) {
                 case 'gameKey':
                     this._gameKey = new PlayerGameKey(data)
@@ -170,10 +170,10 @@ export class PhigrosSave {
         return Buffer.concat([cipher.update(buff.subarray(1)), cipher.final()])
     }
 
-    static encryptProfile(buff: Buffer, type: string): Buffer {
+    static encryptProfile(buff: Buffer, type: string | number): Buffer {
         const cipher = createCipheriv("aes-256-cbc", PhigrosSave.DECRYPT_KEY, PhigrosSave.DECRYPT_IV).setAutoPadding(true)
         return Buffer.concat([
-            new Uint8Array([supportedVersion[type]]),
+            new Uint8Array([typeof type === 'number' ? type : supportedVersion[type]]),
             cipher.update(buff),
             cipher.final()
         ])      
@@ -181,11 +181,11 @@ export class PhigrosSave {
     
     public createSave(): Buffer {
         const zip = new AdmZip()
-        zip.addFile('gameKey', PhigrosSave.encryptProfile(this._gameKey!.save(), 'gameKey'))
-        zip.addFile('gameProgress', PhigrosSave.encryptProfile(this._gameProgress!.save(), 'gameProgress'))
-        zip.addFile('settings', PhigrosSave.encryptProfile(this._settings!.save(), 'settings'))
-        zip.addFile('user', PhigrosSave.encryptProfile(this._user!.save(), 'user'))
-        zip.addFile('gameRecord', PhigrosSave.encryptProfile(this._gameRecord!.save(), 'gameRecord'))
+        zip.addFile('gameKey', this._gameKey!.save(), 'gameKey')
+        zip.addFile('gameProgress', this._gameProgress!.save(), 'gameProgress')
+        zip.addFile('settings', this._settings!.save(), 'settings')
+        zip.addFile('user', this._user!.save(), 'user')
+        zip.addFile('gameRecord', this._gameRecord!.save(), 'gameRecord')
         
         return zip.toBuffer()
     }
