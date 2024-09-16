@@ -11,7 +11,7 @@
   "license": "Anti-996",
   "private": false,
   "scripts": {
-    "test": "ava",
+    "test": "NODE_OPTIONS='--no-deprecation' ava",
     "build": "tsup"
   },
   "dependencies": {
