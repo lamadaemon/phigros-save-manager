@@ -235,18 +235,17 @@ export class PhigrosBinaryFile {
     }
     
     public saveBuffer(): Buffer {
+        return PhigrosSaveManager.encrypt(this.saveCleartextBuffer(), this.fileVersion)
+    }
+
+    public saveCleartextBuffer(): Buffer {
         this.clearBuffer()
         for (const e of this.fields) {
             this.writeFromEntry(e)
         }
 
         this.resetBitCursor()
-        if (this.config.encryption !== undefined && !this.config.encryption) {
-            console.log("Not encrypting!")
-            return this.buff.subarray(0, this.cursor)
-        }
-
-        return PhigrosSaveManager.encrypt(this.buff.subarray(0, this.cursor), this.fileVersion)
+        return this.buff.subarray(0, this.cursor)
     }
 
     public writeFromEntry(definition: FieldEntry) {
