@@ -72,11 +72,11 @@ await service.uploadSave(save.createSave())
 import { PhigrosSaveManager, PlayerGameProgress } from "."
 import fs from 'fs'
 
-const binary = new PlayerGameProgress(PhigrosSaveManager.decrypt(fs.readFileSync("/path/to/gameProgress")));
+const binary = new PlayerGameProgress(fs.readFileSync("/path/to/gameProgress"));
 binary.money[0] = 99
 
 // You'll need a type because the version number is inserted at here
-fs.writeFileSync("/path/to/gameProgress", PhigrosSaveManager.encrypt(binary.save(), 'gameProgress'))
+fs.writeFileSync("/path/to/gameProgress", binary.save())
 
 ```
 
