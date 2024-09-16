@@ -309,30 +309,35 @@ export class PlayerGameProgress {
     // TODO test code
     public editMoney(expr: string) {
         let amount = 0
-        for (let i = 0; i < this.money.length; i++) {
-            let curr = parseInt(expr[i])
+        for (let i = 0; i < expr.length; i++) {
+            let curr = parseInt(expr[i], 10)
             if (isNaN(curr)) {
                 switch (expr[i]) {
                     case 'k':
                     case 'K':
                         this.setMoney(amount, 0)
-                        break
+                        amount = 0
+                        continue
                     case 'm':
                     case 'M':
                         this.setMoney(amount, 1)
-                        break
+                        amount = 0
+                        continue
                     case 'g':
                     case 'G':
                         this.setMoney(amount, 2)
-                        break
+                        amount = 0
+                        continue
                     case 't':
                     case 'T':
                         this.setMoney(amount, 3)
-                        break
+                        amount = 0
+                        continue
                     case 'p':
                     case 'P':
                         this.setMoney(amount, 4)
-                        break
+                        amount = 0
+                        continue
                 }
 
                 if (expr[i + 1] === 'B' || expr[i + 1] === 'b') {
