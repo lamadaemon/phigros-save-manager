@@ -8,6 +8,14 @@ A simple libaray for modify *Phigros* cloud save data.
 
 ---
 
+**API V2 is comming soon!**
+The new API **WILL BREAK** existing code.
+Some big changes including seperated cloud save management APIs with save editing APIs, 
+rename `main` branch to `master`,
+and a lot of APIs are no longer async.
+
+For more details please see [Pull Request #6](https://github.com/lamadaemon/phigros-save-manager/pull/6)
+
 ## Features
 
 - Load binary format save files from local or cloud. Supported version: 
