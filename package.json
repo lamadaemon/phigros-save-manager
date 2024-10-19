@@ -21,10 +21,10 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "@types/commander": "^2.12.2",
     "@ava/typescript": "^4.1.0",
     "@types/adm-zip": "^0.5.2",
-    "@types/node": "^20.7.0",
+    "@types/commander": "^2.12.2",
+    "@types/node": "^22.7.7",
     "ava": "^5.3.1",
     "ts-node": "^10.9.1",
     "tsup": "^7.2.0"
