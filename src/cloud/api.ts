@@ -39,6 +39,15 @@ export class PhigrosCloudServiceAPI {
         return this._summary
     }
 
+    /**
+     * As designed, there may be multiple profiles in the cloud.
+     * This function will select the first profile that matches the condition.
+     * 
+     * You must select one profile before you can do further actions.
+     * 
+     * @param confition filter function
+     * @returns this
+     */
     public async selectProfile(confition: (profile: PlayerProfile) => boolean) {
         const saves = await this.readRemoteSaves()
         this.profile = saves.results.find(confition)
@@ -52,6 +61,14 @@ export class PhigrosCloudServiceAPI {
         return this
     }
 
+    /**
+     * As designed, there may be multiple profiles in the cloud.
+     * This function will select the first profile.
+     * 
+     * You must select one profile before you can do further actions.
+     * 
+     * @returns this
+     */
     public async selectFirstProfile() {
         return this.selectProfile(it => true)
     }
