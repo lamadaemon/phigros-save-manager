@@ -1,7 +1,5 @@
 /**
  * Program automatic generated. Please do not edit.
- * 
- * https://gist.github.com/lamadaemon/bc226ab164d6b34ec42aaf52d0b262b2
  */
 export const diffTable: { [key in string]: number[] } = {
     "Glaciaxion.SunsetRay": [1.0,6.5,12.5], 
@@ -223,6 +221,13 @@ export const diffTable: { [key in string]: number[] } = {
     "君往何处QuoVadis.M2U": [4.0,8.6,14.5], 
     "暗夜苏醒REANIMATE.Warak": [5.0,12.8,15.4], 
     "Grimheart.Puru": [3.0,8.9,13.8], 
+    "Thrashforce.KAHvsE0ri4": [4.5,10.7,15.2], 
+    "Originally.SNKSMizku": [1.0,9.3,14.5], 
+    "黄金之城GOLDTOWN.Memme": [2.0,10.2,14.8], 
+    "双重间谍DoubleAgent.WAVAV": [4.5,11.8,15.5], 
+    "幻影鬼魅PLEASE.R300K": [5.5,9.6,15.1,16.4], 
+    "Schadenfreude.ZxNX": [4.5,11.1,15.2], 
+    "Letempsperdu.Daison": [4.0,9.3,12.5], 
     "Poseidon.1112vsStar": [6.0,8.4,12.8], 
     "WATER.A39沙包P": [4.5,9.4,13.6], 
     "MiracleForestVIPMix.Rinthlive": [2.5,7.5,13.1], 

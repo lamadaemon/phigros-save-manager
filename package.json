@@ -1,6 +1,6 @@
 {
   "name": "phigros-save-manager",
-  "version": "1.0.7",
+  "version": "1.0.13",
   "description": "A simple library for handle phigros saves",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -23,7 +23,7 @@
     "@ava/typescript": "^4.1.0",
     "@types/adm-zip": "^0.5.2",
     "@types/commander": "^2.12.2",
-    "@types/node": "^20.7.0",
+    "@types/node": "^22.7.7",
     "ava": "^5.3.1",
     "ts-node": "^10.9.1",
     "tsup": "^8.2.4",

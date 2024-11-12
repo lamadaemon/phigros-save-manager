@@ -1,7 +1,7 @@
 const fs = require('fs')
 
-// Chart constants is from https://github.com/Catrong/phi-plugin/blob/main/resources/info/difficulty.csv
-const csv = fs.readFileSync('difficulty.csv').toString().split('\n')
+// Chart constants is extracted by a cute and lovely friend :3 Thanks!
+const csv = fs.readFileSync('difficulty.tsv').toString().split('\n')
 const table = []
 
 for (const row of csv) {
