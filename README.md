@@ -44,37 +44,34 @@ You can use the following command to get detialed subcommand explaination.
 phigrous-save-manager
 ```
 
-## Future plans
-
-- [x] Add support for calculating B19.
-- [ ] Add tests.
-- [x] Migrate old code.
-
 ## Examples
 
 ```typescript
 // Example: re8 (aka clear unlocks in chapter 8)
 
-import { PhigrosSaveManager } from 'phigros-save-manager'
+import { PhigrosCloudServiceAPI } from 'phigros-save-manager'
 
-const saveManager = await PhigrosSaveManager.loadCloudSave("<Your Session Token>")
-await saveManager.re8().uploadSave()
+const service = await new PhigrosCloudServiceAPI(token).selectProfile(() => true)
+const newSave = (await service.getPlayerSave()).re8().createSave()
+        
+await service.uploadSave(newSave)
 ```
 
 ```typescript
 // Example: Edit in-game currency (money):
 
-import { PhigrosSaveManager } from 'phigros-save-manager'
+import { PhigrosCloudServiceAPI } from 'phigros-save-manager'
 
-const saveManager = await PhigrosSaveManager.loadCloudSave("<Your Session Token>")
+const service = await new PhigrosCloudServiceAPI(token).selectProfile(() => true)
+const save = (await service.getPlayerSave())
 
-saveManager.gameProgress.money[0] = 99
-saveManager.gameProgress.money[1] = 99
-saveManager.gameProgress.money[2] = 99
-saveManager.gameProgress.money[3] = 99
-saveManager.gameProgress.money[4] = 99
+save.gameProgress.money[0] = 99
+save.gameProgress.money[1] = 99
+save.gameProgress.money[2] = 99
+save.gameProgress.money[3] = 99
+save.gameProgress.money[4] = 99
 
-await saveManager.uploadSave()
+await service.uploadSave(save.createSave())
 ```
 
 ```typescript
@@ -83,11 +80,12 @@ await saveManager.uploadSave()
 import { PhigrosSaveManager, PlayerGameProgress } from "."
 import fs from 'fs'
 
-const binary = new PlayerGameProgress(PhigrosSaveManager.decrypt(fs.readFileSync("/path/to/gameProgress")));
+const binary = new PlayerGameProgress(fs.readFileSync("/path/to/gameProgress"));
 binary.money[0] = 99
 
 // You'll need a type because the version number is inserted at here
-fs.writeFileSync("/path/to/gameProgress", PhigrosSaveManager.encrypt(binary.save(), 'gameProgress'))
+fs.writeFileSync("/path/to/gameProgress", binary.save())
 
 ```
 
+More examples available in examples folder.

@@ -10,7 +10,7 @@ export class GameSaveSummary {
     private _avatar: FieldEntry
     private _levelSummary: FieldEntry
     
-    constructor(buff?: Buffer) {
+    constructor(buff: Buffer) {
         this.binary = new PhigrosBinaryFile([
             {
                 type: 'byte',
@@ -54,8 +54,7 @@ export class GameSaveSummary {
                     ]
                 }
             }
-        ])
-        this.binary.loadBuffer(buff)
+        ], buff, { encryption: false })
 
         this._saveVersion = this.binary.getEntry('saveVersion')!
         this._challengeModeRank = this.binary.getEntry('challengeModeRank')!

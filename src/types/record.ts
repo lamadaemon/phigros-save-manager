@@ -1,6 +1,8 @@
+import { createHash } from "crypto"
 import { FieldEntry, PhigrosBinaryFile } from "../phi-binary"
 
 export class PlayerGameRecord {
+    static readonly VERSION = 1
     private binary: PhigrosBinaryFile
     
     private _records: FieldEntry
@@ -72,9 +74,12 @@ export class PlayerGameRecord {
                     ]
                 }
             }
-        ])
+        ], buff)
 
-        this.binary.loadBuffer(buff)
+        if (this.binary.fileVersion !== PlayerGameRecord.VERSION) {
+            throw new Error(`Unsupported version of gameRecord! Expected: ${PlayerGameRecord.VERSION}, got: ${this.binary.fileVersion}`)
+        }
+
         this._records = this.binary.getEntry('records')!
     }
 
