@@ -1,6 +1,7 @@
 import { FieldEntry, PhigrosBinaryFile } from "../phi-binary"
 
 export class PlayerGameProgress {
+    static readonly VERSION = 3
     private binary: PhigrosBinaryFile
 
     _isFirstRun: FieldEntry
@@ -111,16 +112,12 @@ export class PlayerGameProgress {
                 type: 'byte',
                 field: 'chapter8SongUnlocked'
             },
-        ])
+        ], buff)
 
-        this.binary.loadBuffer(buff)
-        
-        /*
-            Since I changed the structure of PhigrosBinaryFile so these need to ported to new version
-            Old version still working but move to new version can improve performance a little bit
+        if (this.binary.fileVersion !== PlayerGameProgress.VERSION) {
+            throw new Error(`Unsupported version of gameProgress! Expected: ${PlayerGameProgress.VERSION}, got: ${this.binary.fileVersion}`)
+        }
 
-            TODO: Migrate to new version (Checkout GameKey)
-        */
         this._isFirstRun = this.binary.getEntry('isFirstRun')!
         this._legacyChapterFinished = this.binary.getEntry('legacyChapterFinished')!
         this._alreadyShowCollectionTip = this.binary.getEntry('alreadyShowCollectionTip')!
@@ -140,8 +137,6 @@ export class PlayerGameProgress {
         this._chapter8SongUnlocked = this.binary.getEntry('chapter8SongUnlocked')!
 
     }
-
-    
 
     save(): Buffer {
         this.binary.clearBuffer()
@@ -302,4 +297,65 @@ export class PlayerGameProgress {
     set chapter8SongUnlocked(newVal: number) {
         this._chapter8SongUnlocked.value = newVal
     }
+
+    public isChapter8SongUnlocked(songIndex: Chapter8Song): boolean {
+        return (this.chapter8SongUnlocked & (1 << songIndex)) > 0
+    }
+
+    public setMoney(amount: number, at: number) {
+        this.money[at] = amount
+    }
+
+    // TODO test code
+    public editMoney(expr: string) {
+        let amount = 0
+        for (let i = 0; i < expr.length; i++) {
+            let curr = parseInt(expr[i], 10)
+            if (isNaN(curr)) {
+                switch (expr[i]) {
+                    case 'k':
+                    case 'K':
+                        this.setMoney(amount, 0)
+                        amount = 0
+                        continue
+                    case 'm':
+                    case 'M':
+                        this.setMoney(amount, 1)
+                        amount = 0
+                        continue
+                    case 'g':
+                    case 'G':
+                        this.setMoney(amount, 2)
+                        amount = 0
+                        continue
+                    case 't':
+                    case 'T':
+                        this.setMoney(amount, 3)
+                        amount = 0
+                        continue
+                    case 'p':
+                    case 'P':
+                        this.setMoney(amount, 4)
+                        amount = 0
+                        continue
+                }
+
+                if (expr[i + 1] === 'B' || expr[i + 1] === 'b') {
+                    i ++
+                }
+            } else {
+                amount *= 10
+                amount += curr
+            }
+        }
+    }
+}
+
+export enum Chapter8Song {
+    CraveWave,
+    TheChariotRevival,
+    Retribution,
+    Luminescence,
+    DistortedFate,
+    Destruction321
 }

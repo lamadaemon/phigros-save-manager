@@ -1,12 +1,13 @@
-import { PhigrosBinaryFile } from "../phi-binary"
+import { FieldEntry, PhigrosBinaryFile } from "../phi-binary"
 
 export class PlayerInformation {
+    static readonly VERSION = 1
     private binary: PhigrosBinaryFile
     
-    public showPlayerID: boolean
-    public description: string
-    public avatar: string
-    public background: string
+    public _showPlayerID: FieldEntry
+    public _description: FieldEntry
+    public _avatar: FieldEntry
+    public _background: FieldEntry
     
     /**
      * 
@@ -30,30 +31,59 @@ export class PlayerInformation {
                 type: 'string',
                 field: 'bg'
             },
-        ])
+        ], buff)
 
-        this.binary.loadBuffer(buff)
-        
-        /*
-            Since I changed the structure of PhigrosBinaryFile so these need to ported to new version
-            Old version still working but move to new version can improve performance a little bit
+        if (this.binary.fileVersion !== PlayerInformation.VERSION) {
+            throw new Error(`Unsupported version of user ! Expected: ${PlayerInformation.VERSION}, got: ${this.binary.fileVersion}`)
+        }
 
-            TODO: Migrate to new version (Checkout GameKey)
-        */
-        this.showPlayerID = <boolean>this.binary.get('showPlayerID')
-        this.description = <string>this.binary.get('description')
-        this.avatar = <string>this.binary.get('avatar')
-        this.background = <string>this.binary.get('bg')
+        this._showPlayerID = this.binary.getEntry('showPlayerID')!
+        this._description = this.binary.getEntry('description')!
+        this._avatar = this.binary.getEntry('avatar')!
+        this._background = this.binary.getEntry('bg')!
     }
 
     save(): Buffer {
         this.binary.clearBuffer()
 
-        this.binary.set('showPlayerID', this.showPlayerID)
-        this.binary.set('description', this.description)
-        this.binary.set('avatar', this.avatar)
-        this.binary.set('bg', this.background)
+        this.binary.setEntry(this._showPlayerID)
+        this.binary.setEntry(this._description)
+        this.binary.setEntry(this._avatar)
+        this.binary.setEntry(this._background)
         
         return this.binary.saveBuffer()
     }
+
+    get showPlayerID(): boolean {
+        return this._showPlayerID.value
+    }
+
+    set showPlayerID(show: boolean) {
+        this._showPlayerID.value = show
+    }
+
+    get description(): string {
+        return this._description.value
+    }
+
+    set description(desc: string) {
+        this._description.value = desc
+    }
+
+    get avatar(): string {
+        return this._avatar.value
+    }
+
+    set avatar(avatar: string) {
+        this._avatar.value = avatar
+    }
+
+    get background(): string {
+        return this._background.value
+    }
+
+    set background(bg: string) {
+        this._background.value = bg
+    }
+
 }

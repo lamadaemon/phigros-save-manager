@@ -1,6 +1,7 @@
 import { FieldEntry, PhigrosBinaryFile } from '../phi-binary'
 
 export class PlayerSettings {
+    static readonly VERSION = 1
     private binary: PhigrosBinaryFile
 
     public _chordSupport: FieldEntry
@@ -65,10 +66,12 @@ export class PlayerSettings {
                 type: 'float',
                 field: 'noteScale'
             }
-        ])
+        ], buff)
 
-        this.binary.loadBuffer(buff)
-        
+        if (this.binary.fileVersion !== PlayerSettings.VERSION) {
+            throw new Error(`Unsupported version of gameSettings! Expected: ${PlayerSettings.VERSION}, got: ${this.binary.fileVersion}`)
+        }
+
         this._chordSupport = this.binary.getEntry("chordSupport")!
         this._fcAPIndicator = this.binary.getEntry("fcAPIndicator")!
         this._enableHitSound = this.binary.getEntry("enableHitSound")!

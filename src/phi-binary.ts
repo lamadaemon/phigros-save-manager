@@ -1,3 +1,5 @@
+import { PhigrosSaveManager } from ".."
+
 export type PhigrosBinaryPrimitives = string | boolean | number | number[] | string[]
 export type PhigrosBinaryRaw = 'string' | 'byte' | 'short' | 'varshort' | 'int' | 'float' | 'boolean'
 
@@ -45,6 +47,17 @@ export class FieldEntry {
     }
 }
 
+export type BinaryLoadConfig = Partial<{
+    /**
+     * If encryption is undefined or true, it will treat as encrypted file and will try to decrypt.
+     */
+    encryption: boolean,
+    /**
+     * If version is provided, it will check the version of the file if encryption is undefined or true
+     */
+    version: number
+}>
+
 export class PhigrosBinaryFile {
     private static typeSize: { [key in PhigrosBinaryRaw]: number } = {
         string: 128,
@@ -56,6 +69,7 @@ export class PhigrosBinaryFile {
         boolean: 1
     }
 
+    private config: BinaryLoadConfig
     private buff: Buffer
     private fieldDefinitions: PhigrosBinaryStructure[]
 
@@ -65,18 +79,30 @@ export class PhigrosBinaryFile {
     private bitPos: number = 0
     private boolReg: number = 0
 
-    constructor(fielDefinitions: PhigrosBinaryStructure[], buff?: Buffer) {
+    readonly fileVersion: number
+
+    constructor(fielDefinitions: PhigrosBinaryStructure[], buff?: Buffer, config?: BinaryLoadConfig) {
+        this.config = config ?? { encryption: true }
         this.fieldDefinitions = fielDefinitions
-        this.buff = buff ?? Buffer.alloc(this.calculateSize())
 
-    }
-
-    public loadBuffer(buff?: Buffer) {
-        this.buff = buff ?? this.buff
+        if (config?.encryption !== undefined && !config.encryption) {
+            this.buff = buff ?? Buffer.alloc(this.calculateSize())
+        } else {
+            if (!buff) {
+                throw new Error("Buffer is required for decrypting!")
+            }
+            this.buff = PhigrosSaveManager.decrypt(buff)
+        }
+        
+        this.fileVersion = buff?.at(0) ?? config?.version ?? 0
 
         for (const definition of this.fieldDefinitions) {
             this.fields.push(new FieldEntry(definition, this.fields.length, this.readFromDefinition(definition)))
         }
+    }
+
+    public loadBuffer(buff: Buffer) {
+        this.buff = buff ?? this.buff
     }
 
     public readFromDefinition(definition: PhigrosBinaryStructure, ctx?: any): any {
@@ -209,14 +235,17 @@ export class PhigrosBinaryFile {
     }
     
     public saveBuffer(): Buffer {
+        return PhigrosSaveManager.encrypt(this.saveCleartextBuffer(), this.fileVersion)
+    }
+
+    public saveCleartextBuffer(): Buffer {
         this.clearBuffer()
         for (const e of this.fields) {
             this.writeFromEntry(e)
-       }
+        }
 
-       this.resetBitCursor()
-
-       return this.buff.subarray(0, this.cursor)
+        this.resetBitCursor()
+        return this.buff.subarray(0, this.cursor)
     }
 
     public writeFromEntry(definition: FieldEntry) {
@@ -462,7 +491,7 @@ export class PhigrosBinaryFile {
     public writeString(str: string) {
         this.resetBitCursor()
 
-        const byteLen = new Buffer(str).length
+        const byteLen = Buffer.from(str, 'utf8').length
         this.writeVaribleShort(byteLen)
         this.buff.write(str, this.cursor, 'utf8')
 
