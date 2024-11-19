@@ -5,6 +5,7 @@ A simple libaray for modify *Phigros* cloud save data.
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 [![npm](https://img.shields.io/npm/v/phigros-save-manager)](https://www.npmjs.com/package/phigros-save-manager)
+[![CodeScene Code Health](https://codescene.io/projects/61159/status-badges/code-health)](https://codescene.io/projects/61159)
 
 ---
 
